@@ -1,0 +1,15 @@
+# System / IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Site build artifacts
+node_modules/
+dist/
+build/
+.cache/
+
+# Local testing
+*.log
+tmp/
