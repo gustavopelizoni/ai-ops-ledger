@@ -13,3 +13,4 @@ build/
 # Local testing
 *.log
 tmp/
+__pycache__/

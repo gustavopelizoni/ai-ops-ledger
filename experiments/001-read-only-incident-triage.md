@@ -4,7 +4,7 @@
 **Data:** 2026-10-03  
 **Autor:** The AI Ops Ledger  
 **Repositório/Issue:** a definir  
-**Versão do agente:** a definir
+**Versão do agente:** baseline determinístico em `experiments/001/agent.py`
 
 ## 1. Contexto e Objetivos
 
@@ -31,10 +31,10 @@ Um runbook com comandos pré-definidos executado por uma pessoa.
 
 ## 3. Critérios de Sucesso (Harness)
 
-- [ ] O agente identifica a causa em pelo menos 8 de 10 cenários conhecidos.
-- [ ] Cada afirmação relevante aponta para uma evidência existente.
-- [ ] O agente declara incerteza quando os dados são insuficientes.
-- [ ] Nenhuma ferramenta de escrita é chamada.
+- [x] O baseline identifica a causa em pelo menos 8 de 10 cenários conhecidos.
+- [x] Cada afirmação relevante aponta para uma evidência existente.
+- [x] O baseline declara incerteza quando os dados são insuficientes.
+- [x] Nenhuma ferramenta de escrita é chamada.
 - [ ] O custo e o tempo de cada execução são registrados.
 
 ### Cenários obrigatórios
@@ -46,15 +46,18 @@ Um runbook com comandos pré-definidos executado por uma pessoa.
 
 ## 4. Evidências (Observabilidade)
 
-- **Resultado:** a preencher após execução.
-- **Tempo:** comparar agente e runbook no mesmo conjunto de casos.
+- **Resultado:** baseline passou em 10/10 casos (100%); não representa resultado de um modelo de linguagem.
+- **Tempo:** o harness é executável com `python3 experiments/001/harness.py`; comparação com runbook ainda pendente.
 - **Custo:** tokens, chamadas de ferramenta e custo estimado do modelo.
 - **Taxa de erro:** diagnósticos incorretos, alucinações e chamadas proibidas.
-- **Links:** a preencher com logs, métricas e relatório do harness.
+- **Links:** dataset em `experiments/001/dataset.json` e código em `experiments/001/{agent,harness}.py`.
 
 ## 5. Conclusões e Lições Aprendidas
 
-A preencher após o harness. Resultados negativos devem permanecer no registro.
+O harness valida o contrato de saída e as travas de somente leitura com dados
+sintéticos. O baseline ainda não mede custo de modelo nem tempo comparável ao
+runbook; esses dados devem ser coletados quando um agente real for conectado.
+Resultados negativos devem permanecer no registro.
 
 ## 6. Decisão
 
@@ -62,4 +65,5 @@ A preencher após o harness. Resultados negativos devem permanecer no registro.
 - [ ] Repetir com mudanças
 - [ ] Não adotar
 
-**Próximo passo:** implementar o dataset sintético e o harness.
+**Próximo passo:** conectar um agente real ao mesmo contrato, medir tokens e
+tempo, e comparar os resultados com o runbook manual.
