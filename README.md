@@ -1,22 +1,56 @@
-# The AI Ops Ledger 📓🤖
+# The AI Ops Ledger
 
-Bem-vindo ao **The AI Ops Ledger**, um laboratório de engenharia autônomo onde cada experimento técnico é projetado, validado e documentado por agentes de IA.
+Laboratório público para estudar, testar e operar agentes autônomos em cloud e
+observabilidade. Cada experimento precisa deixar uma trilha verificável: o
+problema, o desenho, a execução, as falhas, as evidências e o custo.
 
-## 🚀 Visão
-Este projeto não é apenas um repositório de código, mas um **diário de bordo de engenharia**. O objetivo é demonstrar como o uso de **System Design Documents (SDD)**, **Harness de Validação** e **Agentes de IA** pode elevar a qualidade e a transparência do desenvolvimento de software e infraestrutura.
+## A proposta
 
-## 🛠️ Como funciona o Ledger?
-Cada experimento segue o fluxo:
-1. **Design (SDD):** Uma especificação rigorosa do problema e da solução proposta.
-2. **Implementação:** O código ou configuração (Kubernetes, Python, etc) é gerado.
-3. **Validação (Harness):** Um ambiente de teste automatizado verifica se a solução atende aos critérios do SDD.
-4. **Crônica:** Um agente de IA processa o sucesso/falha e gera um artigo técnico para o blog.
+Agentes que alteram infraestrutura não devem ser avaliados apenas por uma demo
+que "funcionou uma vez". O Ledger transforma cada estudo em uma prova pequena e
+reproduzível de engenharia:
 
-## 📁 Estrutura
-- \`/experiments\`: Registro cronológico de todos os laboratórios realizados.
-- \`/agents\`: Prompts e configurações das entidades de IA.
-- \`/templates\`: Padrões para novos SDDs e crônicas.
-- \`/site\`: O portal público (GitHub Pages/Vercel).
+- **SDD:** define contexto, riscos e critérios de sucesso antes do código.
+- **Implementação:** registra prompts, ferramentas, permissões e configuração.
+- **Harness:** testa comportamento, segurança, recuperação e limites de custo.
+- **Evidências:** guarda logs, métricas, traces e resultados negativos.
+- **Crônica:** converte o resultado em um estudo técnico que outra pessoa pode
+  reproduzir.
 
----
-*Mantido autonomamente por Gemini CLI & Outros Agentes.*
+O foco inicial é **agentes confiáveis para operações de cloud**, especialmente
+observabilidade, resposta a incidentes e automação segura. O projeto não promete
+autonomia irrestrita: mostra quando o agente deve agir, pedir aprovação ou parar.
+
+## Para quem
+
+- Engenheiros de plataforma, SREs e DevOps que querem avaliar agentes com rigor.
+- Times pequenos que precisam automatizar operações sem aumentar o risco.
+- Pessoas estudando IA aplicada que preferem evidência a conteúdo genérico.
+
+## Primeiros experimentos sugeridos
+
+1. Agente que investiga um alerta e produz diagnóstico com links para evidências.
+2. Agente que propõe uma mudança de configuração, mas exige aprovação humana.
+3. Agente que detecta regressão de custo e abre um plano de correção reversível.
+
+Cada experimento deve responder: **o agente foi útil, seguro, reproduzível e
+mais barato ou mais rápido que a alternativa manual?**
+
+## Estrutura
+
+- `experiments/`: estudos versionados, com status e evidências.
+- `agents/`: prompts, contratos de ferramentas, permissões e políticas.
+- `templates/`: padrões para SDDs, harnesses e crônicas.
+- `site/`: publicação pública dos resultados.
+- `STRATEGY.md`: posicionamento, modelo de distribuição e ofertas derivadas.
+
+## Status
+
+O repositório está na fase de fundação. A prioridade é publicar três
+experimentos pequenos, completos e reproduzíveis antes de expandir a plataforma.
+
+## Como acompanhar
+
+Cada estudo publicado deve conter o link para o código, o resultado do harness,
+limitações conhecidas e uma forma de contato ou discussão. Falhas são parte do
+registro: um experimento que evita uma automação insegura também é um resultado.
