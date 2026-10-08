@@ -5,6 +5,7 @@ on:
     branches: [develop]
     paths:
       - "site/**"
+      - "experiments/001/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -29,6 +30,16 @@ jobs:
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run experiment 001 harness
+        run: |
+          mkdir -p site/evidence
+          python3 experiments/001/harness.py > site/evidence/experiment-001-baseline.json
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3

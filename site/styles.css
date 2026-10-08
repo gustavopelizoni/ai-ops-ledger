@@ -65,6 +65,7 @@ h3 { font-size: 1.35rem; }
 .experiment > div { max-width: 700px; }
 .experiment p { max-width: 600px; margin-bottom: 0; font-size: 1.1rem; }
 .text-link { white-space: nowrap; }
+.experiment-links { display: grid; gap: 12px; }
 .site-footer { color: #e9eee8; background: var(--green); }
 .site-footer a { color: #fff; }
 
@@ -78,6 +79,7 @@ h3 { font-size: 1.35rem; }
   .card { min-height: auto; }
   .number { margin-bottom: 25px; }
   .experiment { display: block; padding: 65px 0; }
-  .text-link { display: inline-block; margin-top: 28px; }
+  .experiment-links { margin-top: 28px; }
+  .text-link { display: inline-block; }
   .footer-content { align-items: flex-start; flex-direction: column; gap: 8px; padding: 22px 0; }
 }

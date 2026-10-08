@@ -67,3 +67,8 @@ O site estático fica em `site/` e é publicado pelo workflow
 
 O endereço esperado para este repositório é
 `https://gustavopelizoni.github.io/ai-ops-ledger/`.
+
+O workflow executa `experiments/001/harness.py` antes do deploy e publica o
+resultado em `evidence/experiment-001-baseline.json`. Para ativar a publicação,
+envie a branch `develop` e selecione `GitHub Actions` como fonte em
+`Settings > Pages > Build and deployment`.
