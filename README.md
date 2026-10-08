@@ -54,3 +54,16 @@ experimentos pequenos, completos e reproduzíveis antes de expandir a plataforma
 Cada estudo publicado deve conter o link para o código, o resultado do harness,
 limitações conhecidas e uma forma de contato ou discussão. Falhas são parte do
 registro: um experimento que evita uma automação insegura também é um resultado.
+
+## Publicação no GitHub Pages
+
+O site estático fica em `site/` e é publicado pelo workflow
+`.github/workflows/pages.yml`.
+
+1. Envie a branch `develop` para o GitHub.
+2. Abra `Settings > Pages` no repositório.
+3. Em `Build and deployment > Source`, selecione `GitHub Actions`.
+4. Acompanhe `Actions > Deploy site to GitHub Pages`.
+
+O endereço esperado para este repositório é
+`https://gustavopelizoni.github.io/ai-ops-ledger/`.
