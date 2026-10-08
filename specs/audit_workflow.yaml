@@ -1,0 +1,58 @@
+version: 1
+stages:
+  - name: SELECT
+    objective: Parse exactly one user-selected repository mode.
+    input: CLI arguments
+    output: candidate targets
+    owner: repository_selection
+    success: one valid mode is present
+    on_error: stop
+  - name: DISCOVER_OR_VALIDATE
+    objective: Discover search candidates or validate explicit targets.
+    input: candidate targets or GitHub query
+    output: frozen RepositoryTarget list
+    owner: github_collector
+    success: all explicit targets are public and accessible
+    on_error: stop
+  - name: COLLECT
+    objective: Collect the repository archive at a pinned commit without executing it.
+    input: RepositoryTarget
+    output: normalized repository files
+    owner: github_collector
+    success: archive is within safety limits
+    on_error: record repository failure
+  - name: ANALYZE
+    objective: Select bounded, redacted source context deterministically.
+    input: normalized repository files
+    output: selected files and metadata
+    owner: code_analyzer
+    success: context stays within scope limits
+    on_error: record repository failure
+  - name: AUDIT
+    objective: Request structured category analyses from the local model.
+    input: selected context and category rules
+    output: raw LLM analyses
+    owner: audit_skills
+    success: all responses are valid JSON
+    on_error: retry at most configured limit
+  - name: VALIDATE
+    objective: Validate schemas and cited source locations.
+    input: raw LLM analyses
+    output: validated findings
+    owner: validator
+    success: every finding is evidence-backed
+    on_error: reject invalid response
+  - name: SCORE
+    objective: Compute scores and grades from validated findings.
+    input: validated findings
+    output: deterministic audit result
+    owner: scorer
+    success: all categories are scored
+    on_error: stop
+  - name: REPORT
+    objective: Render escaped static HTML from validated result only.
+    input: audit result
+    output: static report and index
+    owner: report_generator
+    success: report paths are created
+    on_error: stop

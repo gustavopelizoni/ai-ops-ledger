@@ -3,6 +3,7 @@
 .vscode/
 .idea/
 *.swp
+.venv/
 
 # Site build artifacts
 node_modules/
@@ -14,3 +15,11 @@ build/
 *.log
 tmp/
 __pycache__/
+
+# Hermes Agentic Auditor local inputs, archives, manifests and raw audit results
+data/repositories/*
+data/audits/*
+data/manifests/*
+!data/repositories/.gitkeep
+!data/audits/.gitkeep
+!data/manifests/.gitkeep

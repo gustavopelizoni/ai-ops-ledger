@@ -1,76 +1,91 @@
-# The AI Ops Ledger
+# Hermes Agentic Auditor
 
-Laboratório público para estudar, testar e operar agentes autônomos em cloud e
-observabilidade. Cada experimento precisa deixar uma trilha verificável: o
-problema, o desenho, a execução, as falhas, as evidências e o custo.
+Auditor local e estático para repositórios públicos de projetos de IA e agentes.
+Usa Hermes via Ollama para interpretação limitada de código, mas mantém seleção,
+coleta, validação, pontuação e geração de HTML determinísticas.
 
-## A proposta
+## Arquitetura
 
-Agentes que alteram infraestrutura não devem ser avaliados apenas por uma demo
-que "funcionou uma vez". O Ledger transforma cada estudo em uma prova pequena e
-reproduzível de engenharia:
+```text
+SDD → Repository Selection → Harness → static collector/analyzer
+    → category skills → Hermes/Ollama → schema/evidence validator
+    → deterministic scoring → static report → GitHub Pages
+```
 
-- **SDD:** define contexto, riscos e critérios de sucesso antes do código.
-- **Implementação:** registra prompts, ferramentas, permissões e configuração.
-- **Harness:** testa comportamento, segurança, recuperação e limites de custo.
-- **Evidências:** guarda logs, métricas, traces e resultados negativos.
-- **Crônica:** converte o resultado em um estudo técnico que outra pessoa pode
-  reproduzir.
+O Hermes não seleciona repositórios, não executa ferramentas e não gera HTML.
+Todo conteúdo do repositório auditado é tratado como dado não confiável.
 
-O foco inicial é **agentes confiáveis para operações de cloud**, especialmente
-observabilidade, resposta a incidentes e automação segura. O projeto não promete
-autonomia irrestrita: mostra quando o agente deve agir, pedir aprovação ou parar.
+## Instalação
 
-## Para quem
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+ollama pull hermes3:8b
+python scripts/setup_ollama.py
+```
 
-- Engenheiros de plataforma, SREs e DevOps que querem avaliar agentes com rigor.
-- Times pequenos que precisam automatizar operações sem aumentar o risco.
-- Pessoas estudando IA aplicada que preferem evidência a conteúdo genérico.
+O nome do modelo pode variar conforme a instalação. Configure-o sem alterar o
+código:
 
-## Primeiros experimentos sugeridos
+```bash
+export OLLAMA_HOST=http://localhost:11434
+export HERMES_MODEL=hermes3:8b
+export GITHUB_TOKEN= # opcional; eleva o rate limit da API pública
+export MAX_CONTEXT_CHARS=9000 # seguro para o contexto padrão de 4k tokens
+export OLLAMA_NUM_PREDICT=800
+```
 
-1. Agente que investiga um alerta e produz diagnóstico com links para evidências.
-2. Agente que propõe uma mudança de configuração, mas exige aprovação humana.
-3. Agente que detecta regressão de custo e abre um plano de correção reversível.
+## Execução
 
-Cada experimento deve responder: **o agente foi útil, seguro, reproduzível e
-mais barato ou mais rápido que a alternativa manual?**
+```bash
+python main.py --repo microsoft/autogen
+python main.py --repos repos.txt
+python main.py --search "topic:ai-agent" --limit 5 --sort stars
+```
 
-## Estrutura
+`--repo`, `--repos` e `--search` são mutuamente exclusivos. Os dois primeiros
+auditam estritamente os alvos fornecidos. Busca é ativada somente por `--search`.
+Use `--dry-run` para validar e imprimir a seleção sem baixar arquivos nem chamar
+o modelo.
 
-- `experiments/`: estudos versionados, com status e evidências.
-- `agents/`: prompts, contratos de ferramentas, permissões e políticas.
-- `templates/`: padrões para SDDs, harnesses e crônicas.
-- `site/`: publicação pública dos resultados.
-- `STRATEGY.md`: posicionamento, modelo de distribuição e ofertas derivadas.
+Os relatórios são gerados em `site/reports/` e o índice em `site/index.html`.
+Dados brutos, manifestos e resultados intermediários ficam em `data/` e são
+ignorados pelo Git para reduzir risco de publicar código ou segredos coletados.
 
-## Status
+## SDD
 
-O repositório está na fase de fundação. A prioridade é publicar três
-experimentos pequenos, completos e reproduzíveis antes de expandir a plataforma.
+- `specs/audit_rules.yaml`: regras de categoria, pesos e penalidades.
+- `specs/audit_scope.yaml`: extensões, diretórios ignorados e limites.
+- `specs/audit_workflow.yaml`: estágios controlados pelo harness.
+- `specs/llm_analysis_schema.json`: contrato estrito da resposta do modelo.
+- `specs/audit_schema.json`: contrato do resultado pontuado.
 
-## Como acompanhar
+Regras podem mudar nos arquivos SDD, mas o workflow não executa YAML arbitrário:
+o planner valida a sequência conhecida de estágios.
 
-Cada estudo publicado deve conter o link para o código, o resultado do harness,
-limitações conhecidas e uma forma de contato ou discussão. Falhas são parte do
-registro: um experimento que evita uma automação insegura também é um resultado.
+## Segurança e limites
 
-## Publicação no GitHub Pages
+- Nenhum código, dependência, Dockerfile ou comando do alvo é executado.
+- Arquivos são baixados em zip, com limites de tamanho, quantidade, compressão,
+  caminhos e symlinks.
+- O commit auditado é fixado antes do download.
+- Trechos são selecionados deterministicamente e valores parecidos com segredos
+  são redigidos antes da chamada ao modelo.
+- Cada finding precisa citar arquivo e linha presentes no contexto enviado.
+- JSON inválido recebe no máximo `MAX_LLM_RETRIES=2` novas tentativas.
 
-O site estático fica em `site/` e é publicado pelo workflow
-`.github/workflows/pages.yml`.
+## Testes
 
-1. Envie a branch `develop` para o GitHub.
-2. Abra `Settings > Pages` no repositório.
-3. Em `Build and deployment > Source`, selecione `GitHub Actions`.
-4. Acompanhe `Actions > Deploy site to GitHub Pages`.
+```bash
+pytest -q
+```
 
-O endereço esperado para este repositório é
-`https://gustavopelizoni.github.io/ai-ops-ledger/`.
+Os testes usam mocks/fixtures e não exigem GitHub ou Ollama ativos.
 
-O workflow executa `experiments/001/harness.py` antes do deploy e publica o
-resultado do baseline heurístico em `evidence/experiment-001-baseline.json`.
-Esse resultado valida o contrato do harness, não a qualidade de um modelo de IA.
-Para ativar a publicação,
-envie a branch `develop` e selecione `GitHub Actions` como fonte em
-`Settings > Pages > Build and deployment`.
+## Publicação
+
+O workflow `.github/workflows/deploy.yml` publica somente `site/` quando houver
+alterações na branch `main`. Configure **GitHub Actions** como fonte de Pages no
+repositório. Auditorias devem continuar rodando localmente; o workflow não
+processa código externo.

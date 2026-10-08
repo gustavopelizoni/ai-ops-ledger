@@ -1,0 +1,57 @@
+version: 1
+categories:
+  finops:
+    title: FinOps & Prompt Sizing
+    rules:
+      - id: FIN-001
+        description: Prompts and context must have explicit size limits.
+      - id: FIN-002
+        description: Repeated LLM calls should be cached or justified.
+      - id: FIN-003
+        description: LLM calls require bounded output and timeout settings.
+  resilience:
+    title: Resilience & Flow Control
+    rules:
+      - id: RES-001
+        description: Retries, loops and recursion must have explicit bounds.
+      - id: RES-002
+        description: Remote calls require timeouts and actionable error handling.
+      - id: RES-003
+        description: Long-running agent flows require cancellation or circuit breaking.
+  security:
+    title: Security
+    rules:
+      - id: SEC-001
+        description: Untrusted content must not control tools, prompts or commands.
+      - id: SEC-002
+        description: Secrets and credentials must not be hardcoded or exposed.
+      - id: SEC-003
+        description: Inputs, permissions and command execution require validation.
+  architecture:
+    title: Architecture & Observability
+    rules:
+      - id: ARC-001
+        description: Components must have clear responsibilities and error boundaries.
+      - id: ARC-002
+        description: Important operations require safe logs, metrics or traces.
+      - id: ARC-003
+        description: Code should remain modular and auditable.
+scoring:
+  weights:
+    finops: 0.25
+    resilience: 0.25
+    security: 0.30
+    architecture: 0.20
+  penalties:
+    critical: 45
+    high: 25
+    medium: 10
+    low: 3
+    info: 0
+  grades:
+    - { minimum: 90, grade: A }
+    - { minimum: 80, grade: B }
+    - { minimum: 70, grade: C }
+    - { minimum: 55, grade: D }
+    - { minimum: 35, grade: E }
+    - { minimum: 0, grade: F }

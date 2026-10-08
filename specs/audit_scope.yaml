@@ -1,0 +1,14 @@
+version: 1
+allowed_extensions: [".py", ".json", ".yaml", ".yml", ".toml", ".md"]
+ignored_directories: [".git", "node_modules", "venv", ".venv", "__pycache__", "dist", "build"]
+limits:
+  max_repository_size_mb: 20
+  max_archive_members: 5000
+  max_file_size_kb: 500
+  max_files: 12
+  # Safe default for a 4k-context local model after prompt and output budget.
+  max_context_chars: 9000
+  max_compression_ratio: 100
+selection_priority:
+  filenames: ["README.md", "pyproject.toml", "requirements.txt", "package.json", "Dockerfile"]
+  path_keywords: ["agent", "llm", "prompt", "security", "auth", "tool", "api", "config", "main"]

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["repository", "audit", "summary", "findings", "categories", "provenance"],
+  "properties": {
+    "repository": {"type": "object", "additionalProperties": false, "required": ["full_name", "url", "selection_mode"], "properties": {"full_name": {"type": "string"}, "url": {"type": "string", "format": "uri"}, "selection_mode": {"type": "string", "enum": ["explicit", "discovery"]}}},
+    "audit": {"type": "object", "additionalProperties": false, "required": ["score", "grade"], "properties": {"score": {"type": "number", "minimum": 0, "maximum": 100}, "grade": {"type": "string", "enum": ["A", "B", "C", "D", "E", "F"]}}},
+    "summary": {"type": "string", "maxLength": 16000},
+    "findings": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["category", "severity", "title", "description", "file", "line", "recommendation"], "properties": {"category": {"type": "string", "enum": ["finops", "resilience", "security", "architecture"]}, "severity": {"type": "string", "enum": ["critical", "high", "medium", "low", "info"]}, "title": {"type": "string"}, "description": {"type": "string"}, "file": {"type": "string"}, "line": {"type": "integer", "minimum": 1}, "recommendation": {"type": "string"}}}},
+    "categories": {"type": "object", "additionalProperties": false, "required": ["finops", "resilience", "security", "architecture"], "properties": {"finops": {"$ref": "#/$defs/category"}, "resilience": {"$ref": "#/$defs/category"}, "security": {"$ref": "#/$defs/category"}, "architecture": {"$ref": "#/$defs/category"}}},
+    "provenance": {"type": "object", "additionalProperties": false, "required": ["commit_sha", "github_id", "model", "sdd_hashes"], "properties": {"commit_sha": {"type": "string"}, "github_id": {"type": ["integer", "null"]}, "model": {"type": "string"}, "sdd_hashes": {"type": "object", "additionalProperties": {"type": "string"}}}}
+  },
+  "$defs": {
+    "category": {"type": "object", "additionalProperties": false, "required": ["score", "grade", "finding_count"], "properties": {"score": {"type": "number", "minimum": 0, "maximum": 100}, "grade": {"type": "string", "enum": ["A", "B", "C", "D", "E", "F"]}, "finding_count": {"type": "integer", "minimum": 0}}}
+  }
+}
