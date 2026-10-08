@@ -1,7 +1,7 @@
-"""Deterministic baseline for experiment 001.
+"""Deterministic heuristic baseline for experiment 001.
 
-The adapter is intentionally small so a model-backed agent can replace it
-without changing the dataset or the harness contract.
+This is not an AI agent and must not be presented as one. It only verifies that
+the dataset and harness contract work before a model-backed adapter is connected.
 """
 
 
