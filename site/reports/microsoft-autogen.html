@@ -29,8 +29,8 @@
       <a class="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-2 transition" href="../index.html">
         <span>←</span> Voltar para Visão Geral
       </a>
-      <div class="text-xs text-slate-400">
-        Hermes Agentic Auditor · Análise Estática & IA
+      <div class="text-xs text-slate-400 flex items-center gap-2">
+        <span>🛡️</span> Hermes Agentic Auditor · Análise Estática & Segurança Local (Ollama)
       </div>
     </div>
   </header>
@@ -41,7 +41,7 @@
       <div>
         <div class="flex items-center gap-3">
           <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-cyan-950 text-cyan-300 rounded-full border border-cyan-800/50">
-            explicit
+            Modo: Explícito
           </span>
           <span class="text-xs text-slate-400 font-mono">Commit: 027ecf0a37</span>
         </div>
@@ -52,7 +52,7 @@
             </a>
           
         </h1>
-        <p class="text-sm text-slate-400 mt-2">Auditoria gerada em 2026-10-08 13:45:30 UTC</p>
+        <p class="text-sm text-slate-400 mt-2">Relatório de auditoria gerado em 2026-10-08 13:45:30 UTC</p>
       </div>
 
       <!-- Score & Grade Card -->
@@ -76,24 +76,85 @@
     <!-- Executive Summary -->
     <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 shadow-lg">
       <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2 mb-4">
-        <span>💡</span> Resumo Executivo e Insights de IA
+        <span>💡</span> Resumo Executivo e Insights de IA (Hermes / Ollama)
       </h2>
       <p class="text-slate-300 leading-relaxed text-base">The provided repository context does not contain any information related to the specified rules (FIN-001, FIN-002, FIN-003) for the finops category. The context includes documentation for AgentChat and Hello World samples using FastAPI and .NET, but does not mention prompts or context size limits, caching or justification for repeated LLM calls, or bounded output and timeout settings for LLM calls. The provided repository context does not contain any code that violates the specified rules related to resilience. The provided repository context does not contain any security vulnerabilities matching the supplied rules. The provided repository context contains code samples for AgentChat and HelloAgent in FastAPI and .NET environments respectively. The samples demonstrate the use of clear responsibilities and error boundaries, state persistence, and modular design.</p>
+    </section>
+
+    <!-- Success Highlights & Passed Guardrails -->
+    <section class="bg-gradient-to-r from-emerald-950/30 to-slate-900/60 border border-emerald-900/40 rounded-2xl p-8 shadow-lg">
+      <h2 class="text-xl font-bold text-emerald-300 flex items-center gap-2 mb-4">
+        <span>🌟</span> Pontos Fortes e Guardrails Bem Sucedidos
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                💰 FinOps
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                ⚡ Resiliência
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                🛡️ Segurança
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                🏛️ Arquitetura
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (91)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+      </div>
     </section>
 
     <!-- Categories Breakdown -->
     <section>
       <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-        <span>📊</span> Análise por Categoria
+        <span>📊</span> Análise Detalhada por Categoria
       </h2>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
           <div>
             <div class="flex items-center justify-between">
-              <h3 class="capitalize font-semibold text-slate-200 text-lg">finops</h3>
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                💰
+                finops
+              </h3>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
-                A
+                Nota A
               </span>
             </div>
             <div class="mt-4 flex items-baseline gap-2">
@@ -114,9 +175,12 @@
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
           <div>
             <div class="flex items-center justify-between">
-              <h3 class="capitalize font-semibold text-slate-200 text-lg">resilience</h3>
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                ⚡
+                resilience
+              </h3>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
-                A
+                Nota A
               </span>
             </div>
             <div class="mt-4 flex items-baseline gap-2">
@@ -137,9 +201,12 @@
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
           <div>
             <div class="flex items-center justify-between">
-              <h3 class="capitalize font-semibold text-slate-200 text-lg">security</h3>
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                🛡️
+                security
+              </h3>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
-                A
+                Nota A
               </span>
             </div>
             <div class="mt-4 flex items-baseline gap-2">
@@ -160,9 +227,12 @@
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
           <div>
             <div class="flex items-center justify-between">
-              <h3 class="capitalize font-semibold text-slate-200 text-lg">architecture</h3>
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                🏛️
+                architecture
+              </h3>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
-                A
+                Nota A
               </span>
             </div>
             <div class="mt-4 flex items-baseline gap-2">
@@ -187,7 +257,7 @@
     <section>
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2">
-          <span>🔍</span> Achados Validados e Recomendações (3)
+          <span>🔍</span> Achados Validados, Vulnerabilidades e Recomendações (3)
         </h2>
       </div>
 
@@ -198,15 +268,15 @@
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md 
                 bg-slate-800 text-cyan-300 border border-slate-700">
-                low
+                Severidade: Baixo
               </span>
               <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-md border border-slate-700">
-                architecture
+                Categoria: architecture
               </span>
             </div>
             
             <span class="font-mono text-xs text-cyan-300 bg-slate-950/60 px-3 py-1 rounded-md border border-slate-800">
-              python/samples/agentchat_fastapi/README.md:1
+              📁 python/samples/agentchat_fastapi/README.md:L1
             </span>
             
           </div>
@@ -222,15 +292,15 @@
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md 
                 bg-slate-800 text-cyan-300 border border-slate-700">
-                low
+                Severidade: Baixo
               </span>
               <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-md border border-slate-700">
-                architecture
+                Categoria: architecture
               </span>
             </div>
             
             <span class="font-mono text-xs text-cyan-300 bg-slate-950/60 px-3 py-1 rounded-md border border-slate-800">
-              python/samples/agentchat_fastapi/README.md:1
+              📁 python/samples/agentchat_fastapi/README.md:L1
             </span>
             
           </div>
@@ -246,15 +316,15 @@
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md 
                 bg-slate-800 text-cyan-300 border border-slate-700">
-                low
+                Severidade: Baixo
               </span>
               <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-md border border-slate-700">
-                architecture
+                Categoria: architecture
               </span>
             </div>
             
             <span class="font-mono text-xs text-cyan-300 bg-slate-950/60 px-3 py-1 rounded-md border border-slate-800">
-              python/samples/agentchat_fastapi/README.md:1
+              📁 python/samples/agentchat_fastapi/README.md:L1
             </span>
             
           </div>
@@ -268,14 +338,24 @@
       </div>
     </section>
 
+    <!-- Important Operational Notes -->
+    <section class="bg-amber-950/20 border border-amber-900/40 rounded-2xl p-6 text-sm text-slate-300">
+      <h3 class="font-bold text-amber-300 flex items-center gap-2 mb-2">
+        <span>⚠️</span> Observações Importantes e Recomendações Operacionais
+      </h3>
+      <p class="leading-relaxed">
+        Esta auditoria foi conduzida estritamente de forma local e reproduzível utilizando o modelo local via Ollama. Recomenda-se revisar periodicamente os limites de contexto das chamadas de LLM, garantir o mascaramento de credenciais em ambientes de agentes autônomos e manter as varreduras de segurança ativas.
+      </p>
+    </section>
+
     <!-- Provenance / Metadata Footer -->
     <section class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 text-xs text-slate-400 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
-        <span class="font-semibold text-slate-300">Modelo LLM:</span> hermes3:8b &nbsp;|&nbsp;
+        <span class="font-semibold text-slate-300">Modelo LLM (Ollama):</span> hermes3:8b &nbsp;|&nbsp;
         <span class="font-semibold text-slate-300">GitHub ID:</span> 680120071
       </div>
       <div>
-        <span class="font-semibold text-slate-300">SDD Rules Hash:</span> <code class="text-cyan-300 font-mono">0db8c2cf65d8...</code>
+        <span class="font-semibold text-slate-300">Hash SDD das Regras:</span> <code class="text-cyan-300 font-mono">0db8c2cf65d8...</code>
       </div>
     </section>
   </main>

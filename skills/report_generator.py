@@ -39,8 +39,8 @@ REPORT_TEMPLATE = """<!doctype html>
       <a class="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-2 transition" href="../index.html">
         <span>←</span> Voltar para Visão Geral
       </a>
-      <div class="text-xs text-slate-400">
-        Hermes Agentic Auditor · Análise Estática & IA
+      <div class="text-xs text-slate-400 flex items-center gap-2">
+        <span>🛡️</span> Hermes Agentic Auditor · Análise Estática & Segurança Local (Ollama)
       </div>
     </div>
   </header>
@@ -51,7 +51,7 @@ REPORT_TEMPLATE = """<!doctype html>
       <div>
         <div class="flex items-center gap-3">
           <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-cyan-950 text-cyan-300 rounded-full border border-cyan-800/50">
-            {{ result.repository.selection_mode }}
+            Modo: {{ result.repository.selection_mode | replace('explicit', 'Explícito') | replace('discovery', 'Descoberta') }}
           </span>
           <span class="text-xs text-slate-400 font-mono">Commit: {{ result.provenance.commit_sha[:10] if result.provenance and result.provenance.commit_sha else 'N/A' }}</span>
         </div>
@@ -64,7 +64,7 @@ REPORT_TEMPLATE = """<!doctype html>
             {{ result.repository.full_name }}
           {% endif %}
         </h1>
-        <p class="text-sm text-slate-400 mt-2">Auditoria gerada em {{ result.generated_at | replace('T', ' ') | truncate(19, True, '') if result.generated_at else 'recentemente' }} UTC</p>
+        <p class="text-sm text-slate-400 mt-2">Relatório de auditoria gerado em {{ result.generated_at | replace('T', ' ') | truncate(19, True, '') if result.generated_at else 'recentemente' }} UTC</p>
       </div>
 
       <!-- Score & Grade Card -->
@@ -88,24 +88,49 @@ REPORT_TEMPLATE = """<!doctype html>
     <!-- Executive Summary -->
     <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 shadow-lg">
       <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2 mb-4">
-        <span>💡</span> Resumo Executivo e Insights de IA
+        <span>💡</span> Resumo Executivo e Insights de IA (Hermes / Ollama)
       </h2>
       <p class="text-slate-300 leading-relaxed text-base">{{ result.summary }}</p>
+    </section>
+
+    <!-- Success Highlights & Passed Guardrails -->
+    <section class="bg-gradient-to-r from-emerald-950/30 to-slate-900/60 border border-emerald-900/40 rounded-2xl p-8 shadow-lg">
+      <h2 class="text-xl font-bold text-emerald-300 flex items-center gap-2 mb-4">
+        <span>🌟</span> Pontos Fortes e Guardrails Bem Sucedidos
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {% for name, category in result.categories.items() %}
+          {% if category.score >= 90 %}
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                {% if name == 'finops' %}💰 FinOps{% elif name == 'resilience' %}⚡ Resiliência{% elif name == 'security' %}🛡️ Segurança{% else %}🏛️ Arquitetura{% endif %}
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado ({{ category.score }})</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
     </section>
 
     <!-- Categories Breakdown -->
     <section>
       <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
-        <span>📊</span> Análise por Categoria
+        <span>📊</span> Análise Detalhada por Categoria
       </h2>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {% for name, category in result.categories.items() %}
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
           <div>
             <div class="flex items-center justify-between">
-              <h3 class="capitalize font-semibold text-slate-200 text-lg">{{ name }}</h3>
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                {% if name == 'finops' %}💰{% elif name == 'resilience' %}⚡{% elif name == 'security' %}🛡️{% else %}🏛️{% endif %}
+                {{ name }}
+              </h3>
               <span class="px-2.5 py-0.5 text-xs font-bold rounded-md {% if category.grade == 'A' %}bg-emerald-950 text-emerald-300 border border-emerald-800/50{% elif category.grade == 'B' %}bg-cyan-950 text-cyan-300 border border-cyan-800/50{% else %}bg-amber-950 text-amber-300 border border-amber-800/50{% endif %}">
-                {{ category.grade }}
+                Nota {{ category.grade }}
               </span>
             </div>
             <div class="mt-4 flex items-baseline gap-2">
@@ -132,7 +157,7 @@ REPORT_TEMPLATE = """<!doctype html>
     <section>
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2">
-          <span>🔍</span> Achados Validados e Recomendações ({{ result.findings | length }})
+          <span>🔍</span> Achados Validados, Vulnerabilidades e Recomendações ({{ result.findings | length }})
         </h2>
       </div>
 
@@ -145,15 +170,15 @@ REPORT_TEMPLATE = """<!doctype html>
                 {% if finding.severity == 'critical' or finding.severity == 'high' %}bg-rose-950 text-rose-300 border border-rose-800/50
                 {% elif finding.severity == 'medium' %}bg-amber-950 text-amber-300 border border-amber-800/50
                 {% else %}bg-slate-800 text-cyan-300 border border-slate-700{% endif %}">
-                {{ finding.severity }}
+                Severidade: {{ finding.severity | replace('critical', 'Crítico') | replace('high', 'Alto') | replace('medium', 'Médio') | replace('low', 'Baixo') }}
               </span>
               <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-md border border-slate-700">
-                {{ finding.category }}
+                Categoria: {{ finding.category }}
               </span>
             </div>
             {% if finding.file %}
             <span class="font-mono text-xs text-cyan-300 bg-slate-950/60 px-3 py-1 rounded-md border border-slate-800">
-              {{ finding.file }}{% if finding.line %}:{{ finding.line }}{% endif %}
+              📁 {{ finding.file }}{% if finding.line %}:L{{ finding.line }}{% endif %}
             </span>
             {% endif %}
           </div>
@@ -163,7 +188,7 @@ REPORT_TEMPLATE = """<!doctype html>
 
           {% if finding.recommendation and finding.recommendation != 'None' %}
           <div class="mt-4 pt-4 border-t border-slate-800/60 text-sm bg-slate-950/40 p-4 rounded-lg border border-slate-800/80">
-            <span class="font-semibold text-cyan-400 block mb-1">💡 Recomendação de Correção:</span>
+            <span class="font-semibold text-cyan-400 block mb-1">💡 Recomendação de Correção e Mitigação:</span>
             <p class="text-slate-300">{{ finding.recommendation }}</p>
           </div>
           {% endif %}
@@ -171,20 +196,30 @@ REPORT_TEMPLATE = """<!doctype html>
         {% else %}
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-8 text-center text-slate-400">
           <span class="text-3xl block mb-2">🎉</span>
-          Nenhum finding validado ou crítico encontrado neste repositório. Parabéns!
+          Nenhum desvio crítico ou finding bloqueante encontrado neste repositório. Código em conformidade com os guardrails estabelecidos!
         </div>
         {% endfor %}
       </div>
     </section>
 
+    <!-- Important Operational Notes -->
+    <section class="bg-amber-950/20 border border-amber-900/40 rounded-2xl p-6 text-sm text-slate-300">
+      <h3 class="font-bold text-amber-300 flex items-center gap-2 mb-2">
+        <span>⚠️</span> Observações Importantes e Recomendações Operacionais
+      </h3>
+      <p class="leading-relaxed">
+        Esta auditoria foi conduzida estritamente de forma local e reproduzível utilizando o modelo local via Ollama. Recomenda-se revisar periodicamente os limites de contexto das chamadas de LLM, garantir o mascaramento de credenciais em ambientes de agentes autônomos e manter as varreduras de segurança ativas.
+      </p>
+    </section>
+
     <!-- Provenance / Metadata Footer -->
     <section class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 text-xs text-slate-400 flex flex-col md:flex-row items-center justify-between gap-4">
       <div>
-        <span class="font-semibold text-slate-300">Modelo LLM:</span> {{ result.provenance.model if result.provenance and result.provenance.model else 'hermes3:8b' }} &nbsp;|&nbsp;
+        <span class="font-semibold text-slate-300">Modelo LLM (Ollama):</span> {{ result.provenance.model if result.provenance and result.provenance.model else 'hermes3:8b' }} &nbsp;|&nbsp;
         <span class="font-semibold text-slate-300">GitHub ID:</span> {{ result.provenance.github_id if result.provenance and result.provenance.github_id else 'N/A' }}
       </div>
       <div>
-        <span class="font-semibold text-slate-300">SDD Rules Hash:</span> <code class="text-cyan-300 font-mono">{% if result.provenance and result.provenance.sdd_hashes %}{{ result.provenance.sdd_hashes.rules[:12] }}...{% else %}N/A{% endif %}</code>
+        <span class="font-semibold text-slate-300">Hash SDD das Regras:</span> <code class="text-cyan-300 font-mono">{% if result.provenance and result.provenance.sdd_hashes %}{{ result.provenance.sdd_hashes.rules[:12] }}...{% else %}N/A{% endif %}</code>
       </div>
     </section>
   </main>
@@ -224,11 +259,11 @@ INDEX_TEMPLATE = """<!doctype html>
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gradient-to-r from-slate-900 via-slate-900/90 to-cyan-950/40 border border-slate-800 rounded-3xl p-8 shadow-2xl">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950 text-cyan-300 text-xs font-semibold uppercase tracking-wider border border-cyan-800/50 mb-3">
-          <span>⚡</span> AI Ops Ledger & Intelligence
+          <span>⚡</span> AI Ops Ledger & Intelligence · 100% Local (Ollama)
         </div>
         <h1 class="text-4xl md:text-5xl font-black tracking-tight">Hermes Agentic Auditor</h1>
         <p class="mt-3 text-slate-300 text-base max-w-2xl leading-relaxed">
-          Auditorias estáticas, locais e reproduzíveis de projetos de IA. Garanta robustez, segurança, FinOps e resiliência em arquiteturas de agentes.
+          Auditorias estáticas, locais e reproduzíveis de projetos de IA. Garanta robustez, segurança com Trivy, FinOps e resiliência em arquiteturas de agentes.
         </p>
       </div>
 
@@ -252,7 +287,7 @@ INDEX_TEMPLATE = """<!doctype html>
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/60 border border-slate-800 rounded-2xl p-4 shadow-md">
       <div class="relative w-full sm:w-96">
         <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">🔍</span>
-        <input type="text" id="searchInput" placeholder="Filtrar repositórios..." onkeyup="filterReports()" 
+        <input type="text" id="searchInput" placeholder="Filtrar repositórios por nome..." onkeyup="filterReports()" 
           class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition">
       </div>
       <div class="text-xs text-slate-400 font-medium">
@@ -268,14 +303,14 @@ INDEX_TEMPLATE = """<!doctype html>
         <div>
           <div class="flex items-center justify-between mb-4">
             <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-lg border border-slate-700">
-              {{ report.repository.selection_mode }}
+              Modo: {{ report.repository.selection_mode | replace('explicit', 'Explícito') | replace('discovery', 'Descoberta') }}
             </span>
             <div class="flex items-center gap-2">
               <span class="text-2xl font-black {% if report.audit.score >= 90 %}text-emerald-400{% elif report.audit.score >= 75 %}text-cyan-400{% else %}text-amber-400{% endif %}">
                 {{ report.audit.score }}
               </span>
               <span class="px-2.5 py-1 text-xs font-bold rounded-md {% if report.audit.grade == 'A' %}bg-emerald-950 text-emerald-300 border border-emerald-800/50{% elif report.audit.grade == 'B' %}bg-cyan-950 text-cyan-300 border border-cyan-800/50{% else %}bg-amber-950 text-amber-300 border border-amber-800/50{% endif %}">
-                {{ report.audit.grade }}
+                Nota {{ report.audit.grade }}
               </span>
             </div>
           </div>
@@ -292,7 +327,9 @@ INDEX_TEMPLATE = """<!doctype html>
           <div class="mt-6 grid grid-cols-4 gap-2">
             {% for cat_name, cat_data in report.categories.items() %}
             <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2 text-center">
-              <div class="text-[10px] uppercase text-slate-400 font-medium truncate">{{ cat_name[:4] }}</div>
+              <div class="text-[10px] uppercase text-slate-400 font-medium truncate">
+                {% if cat_name == 'finops' %}💰 FinOps{% elif cat_name == 'resilience' %}⚡ Resiliência{% elif cat_name == 'security' %}🛡️ Seg.{% else %}🏛️ Arq.{% endif %}
+              </div>
               <div class="text-sm font-bold text-slate-200 mt-0.5">{{ cat_data.score }}</div>
             </div>
             {% endfor %}
@@ -300,7 +337,7 @@ INDEX_TEMPLATE = """<!doctype html>
         </div>
 
         <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-          <span>{{ report.findings | length }} achados (findings)</span>
+          <span>🔍 {{ report.findings | length }} achados registrados</span>
           <span class="text-cyan-400 font-medium group-hover:translate-x-1 transition inline-flex items-center gap-1">Ver relatório completo →</span>
         </div>
       </a>
