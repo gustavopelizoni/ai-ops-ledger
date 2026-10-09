@@ -75,5 +75,54 @@
     },
     "generated_at": "2026-10-08T13:45:30.503343+00:00",
     "filename": "microsoft-autogen.html"
+  },
+  {
+    "repository": {
+      "full_name": "terraform-aws-modules/terraform-aws-eks",
+      "url": "https://github.com/terraform-aws-modules/terraform-aws-eks",
+      "selection_mode": "explicit"
+    },
+    "audit": {
+      "score": 100.0,
+      "grade": "A"
+    },
+    "summary": "No findings The provided repository context does not contain any code related to retries, loops, recursion, remote calls, timeouts, error handling, cancellation, or circuit breaking. The context appears to be documentation for a Terraform module to create AWS EKS resources. No findings The provided repository context does not contain any findings matching the supplied rules.",
+    "findings": [],
+    "categories": {
+      "finops": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "resilience": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "security": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "architecture": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      }
+    },
+    "provenance": {
+      "commit_sha": "91b8a8d944e3cf169483108acd12d5b1e47856f7",
+      "github_id": 136401408,
+      "model": "hermes3:8b",
+      "sdd_hashes": {
+        "rules": "0db8c2cf65d8e2658ce1e5186b2726731c25f3b912b4f8b39f76f7dbd35073f8",
+        "scope": "ba0fb3b0a42b8b694ce765abf05a67231140bd0ca3f5d60bb8036ad72f90a248",
+        "workflow": "f51f72537c55a09f8cece8c31fec65b6d63abe8bf0cfcb27d876a61fec799c40",
+        "llm_schema": "1cbcd651c8e774c959cc7c0058cbb7a941829d13449926101566570ead50781a",
+        "result_schema": "ffa34d2ee266d262ec51d4e7cdab926cbd78f41bc7e327464be0c552c23adae8"
+      }
+    },
+    "generated_at": "2026-10-09T00:37:34.546418+00:00",
+    "filename": "terraform-aws-modules-terraform-aws-eks.html"
   }
 ]
