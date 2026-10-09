@@ -78,6 +78,65 @@
   },
   {
     "repository": {
+      "full_name": "rhoribe/minhashoras",
+      "url": "https://github.com/rhoribe/minhashoras",
+      "selection_mode": "explicit"
+    },
+    "audit": {
+      "score": 92.5,
+      "grade": "A"
+    },
+    "summary": "The provided repository context does not contain any prompts or code that would require a static code audit. The text appears to be documentation or instructions for a web application. The provided repository context does not contain any code that would be relevant for a static code audit. It appears to be a README file describing the features and installation process of a web application called 'Minhas Horas'. The repository context contains hardcoded credentials in the 'README.md' file. The provided repository context does not contain any code that violates the specified architectural rules. No findings are emitted.",
+    "findings": [
+      {
+        "category": "security",
+        "severity": "high",
+        "title": "Hardcoded Credentials",
+        "description": "The 'README.md' file contains the following hardcoded credentials:\n\n| Field | Default Value |\n|---|---|\n| **Username** | `admin` |\n| **Temporary Password** | `admin123` |\n| **Profile** | Administrator (`admin`) |",
+        "file": "README.md",
+        "line": 6,
+        "recommendation": "Remove or replace hardcoded credentials with a secure method of managing and injecting secrets into the application."
+      }
+    ],
+    "categories": {
+      "finops": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "resilience": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "security": {
+        "score": 75,
+        "grade": "C",
+        "finding_count": 1
+      },
+      "architecture": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      }
+    },
+    "provenance": {
+      "commit_sha": "45ca9e9907e745e2bd5a0ae1371bdfbd649c0b61",
+      "github_id": 1402116947,
+      "model": "hermes3:8b",
+      "sdd_hashes": {
+        "rules": "0db8c2cf65d8e2658ce1e5186b2726731c25f3b912b4f8b39f76f7dbd35073f8",
+        "scope": "ba0fb3b0a42b8b694ce765abf05a67231140bd0ca3f5d60bb8036ad72f90a248",
+        "workflow": "f51f72537c55a09f8cece8c31fec65b6d63abe8bf0cfcb27d876a61fec799c40",
+        "llm_schema": "1cbcd651c8e774c959cc7c0058cbb7a941829d13449926101566570ead50781a",
+        "result_schema": "ffa34d2ee266d262ec51d4e7cdab926cbd78f41bc7e327464be0c552c23adae8"
+      }
+    },
+    "generated_at": "2026-10-09T01:53:36.219411+00:00",
+    "filename": "rhoribe-minhashoras.html"
+  },
+  {
+    "repository": {
       "full_name": "terraform-aws-modules/terraform-aws-eks",
       "url": "https://github.com/terraform-aws-modules/terraform-aws-eks",
       "selection_mode": "explicit"

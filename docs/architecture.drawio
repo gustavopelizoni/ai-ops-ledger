@@ -1,0 +1,115 @@
+<mxfile host="Electron" modified="2026-10-08T15:00:00.000Z" agent="Mozilla/5.0" version="21.0.0" etag="hermes-auditor-architecture" type="device">
+  <diagram id="hermes_workflow" name="Arquitetura Hermes Agentic Auditor">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#020617" math="0" shadow="1">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        
+        <!-- Title -->
+        <mxCell id="title" value="Hermes Agentic Auditor - Arquitetura de Execução Local (Ollama)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#38bdf8;fontSize:20;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="30" width="600" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- CLI Layer -->
+        <mxCell id="box_cli" value="CLI / main.py&#xa;(Orquestração Inicial)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:14;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="120" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Agent Core -->
+        <mxCell id="box_agent" value="HermesAuditor&#xa;(agent/agent.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:14;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="120" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- GitHub Collector -->
+        <mxCell id="box_collector" value="GitHubCollector&#xa;(skills/github_collector.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="520" y="120" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Code Analyzer -->
+        <mxCell id="box_analyzer" value="CodeAnalyzer &amp; Redaction&#xa;(skills/code_analyzer.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="750" y="120" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Trivy Scanner -->
+        <mxCell id="box_trivy" value="TrivyScanner&#xa;(agent/trivy.py)&#xa;Segurança &amp; Guardrails" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0f766e;fontColor=#f8fafc;strokeColor=#14b8a6;fontSize:13;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="240" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Skills / Auditors -->
+        <mxCell id="box_skills" value="Skills Especializadas&#xa;- FinOpsAuditor&#xa;- ResilienceAuditor&#xa;- SecurityAuditor&#xa;- ObservabilityAuditor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="240" width="180" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Ollama Client -->
+        <mxCell id="box_client" value="OllamaClient&#xa;(agent/ollama_client.py)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="250" width="180" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Ollama Local Server -->
+        <mxCell id="box_ollama" value="Ollama Local Server&#xa;(http://localhost:11434)&#xa;Modelo: hermes3:8b&#xa;(100% Local / Sem Tokens Gemini)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#854d0e;fontColor=#fef08a;strokeColor=#ca8a04;fontSize:13;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="240" width="180" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- Validator -->
+        <mxCell id="box_validator" value="AuditValidator&#xa;(agent/validator.py)&#xa;Schema &amp; Result Validation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Scorer -->
+        <mxCell id="box_scorer" value="DeterministicScorer&#xa;(agent/scorer.py)&#xa;Pesos, Notas e Scores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="290" y="390" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- Report Generator -->
+        <mxCell id="box_reporter" value="ReportGenerator&#xa;(skills/report_generator.py)&#xa;HTML PT-BR &amp; JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1e293b;fontColor=#f8fafc;strokeColor=#334155;fontSize:13;" vertex="1" parent="1">
+          <mxGeometry x="520" y="390" width="180" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- GitHub Pages Output -->
+        <mxCell id="box_pages" value="GitHub Pages / site/&#xa;- index.html (Dashboard PT-BR)&#xa;- reports.json&#xa;- reports/*.html" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#065f46;fontColor=#a7f3d0;strokeColor=#059669;fontSize:13;fontStyle:1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- Edges / Connections -->
+        <mxCell id="e1" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_cli" target="box_agent">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_agent" target="box_collector">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_collector" target="box_analyzer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontColor=#f8fafc;strokeColor=#14b8a6;" edge="1" parent="1" source="box_analyzer" target="box_trivy">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;entryX=1;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_trivy" target="box_skills">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;entryX=1;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_skills" target="box_client">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;entryX=1;entryY=0.5;fontColor=#f8fafc;strokeColor=#ca8a04;" edge="1" parent="1" source="box_client" target="box_ollama">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_ollama" target="box_validator">
+          <mxGeometry relative="1" as="geometry">
+            <Array as:points>
+              <mxPoint x="150" y="360"/>
+              <mxPoint x="150" y="360"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e9" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_validator" target="box_scorer">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#38bdf8;" edge="1" parent="1" source="box_scorer" target="box_reporter">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#f8fafc;strokeColor=#059669;" edge="1" parent="1" source="box_reporter" target="box_pages">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
