@@ -12,17 +12,19 @@ from agent.config import Settings, scope_with_environment
 from agent.logging import configure_logging, event
 from agent.sdd import load_sdd
 from skills.github_collector import GitHubCollector, read_repository_list
+from skills.skill_collector import SkillCollector
 
 
 ROOT = Path(__file__).resolve().parent
 
 
 def arguments() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Static, local-LLM auditor for public AI-agent repositories.")
+    parser = argparse.ArgumentParser(description="Static, local-LLM auditor for public AI-agent repositories and platform skills.")
     selection = parser.add_mutually_exclusive_group(required=True)
     selection.add_argument("--repo", help="One public GitHub repository: owner/repository")
     selection.add_argument("--repos", help="UTF-8 file with one owner/repository per line")
     selection.add_argument("--search", help="Explicit GitHub repository search query")
+    selection.add_argument("--skill", help="Skills.sh platform skill reference or URL (e.g. mattpocock/skills/setup-matt-pocock-skills)")
     parser.add_argument("--limit", type=int, default=5, help="Search result limit (1-100; search only)")
     parser.add_argument("--sort", choices=("stars", "forks", "help-wanted-issues", "updated"), default="stars", help="Deterministic GitHub search ordering")
     parser.add_argument("--model", help="Ollama model name; defaults to HERMES_MODEL or hermes3:8b")
@@ -40,6 +42,7 @@ def main() -> int:
     settings = Settings.from_environment(ROOT, args.model, args.output)
     sdd = load_sdd(ROOT)
     collector = GitHubCollector(settings.github_token, settings.request_timeout_seconds, scope_with_environment(sdd.scope))
+    skill_collector = SkillCollector(settings.request_timeout_seconds, scope_with_environment(sdd.scope))
     event(logger, "repository_selection_started")
     if args.repo:
         event(logger, "repository_validation_started", repository=args.repo)
@@ -47,13 +50,16 @@ def main() -> int:
     elif args.repos:
         event(logger, "repository_validation_started", source=args.repos)
         targets = collector.validate_all(read_repository_list(args.repos))
+    elif args.skill:
+        event(logger, "skill_validation_started", skill=args.skill)
+        targets = [skill_collector.validate_skill(args.skill)]
     else:
         targets = collector.search(args.search, args.limit, args.sort)
     if not targets:
-        raise RuntimeError("Repository selection returned no public repositories")
+        raise RuntimeError("Selection returned no targets for audit")
     for target in targets:
-        event(logger, "repository_selected", repository=target.full_name, selection_mode=target.selection_mode)
-    manifest = {"selection_mode": "discovery" if args.search else "explicit", "query": args.search, "sort": args.sort if args.search else None, "targets": [target.to_dict() for target in targets]}
+        event(logger, "target_selected", target=target.full_name, selection_mode=target.selection_mode)
+    manifest = {"selection_mode": "skill" if args.skill else ("discovery" if args.search else "explicit"), "query": args.search, "sort": args.sort if args.search else None, "targets": [target.to_dict() for target in targets]}
     manifest["selected_at"] = datetime.now(UTC).isoformat()
     manifest_dir = ROOT / "data" / "manifests"
     manifest_dir.mkdir(parents=True, exist_ok=True)

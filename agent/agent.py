@@ -18,6 +18,7 @@ from skills.observability_auditor import ObservabilityAuditor
 from skills.report_generator import ReportGenerator
 from skills.resilience_auditor import ResilienceAuditor
 from skills.security_auditor import SecurityAuditor
+from skills.skill_collector import SkillCollector
 
 
 class HermesAuditor:
@@ -28,12 +29,18 @@ class HermesAuditor:
         self.scope = scope_with_environment(sdd.scope)
         self.planner = WorkflowPlanner(sdd.workflow)
         self.collector = GitHubCollector(settings.github_token, settings.request_timeout_seconds, self.scope)
+        self.skill_collector = SkillCollector(settings.request_timeout_seconds, self.scope)
         self.analyzer = CodeAnalyzer(self.scope)
         self.client = OllamaClient(settings.ollama_host, settings.model, settings.request_timeout_seconds, settings.llm_num_predict)
         self.validator = AuditValidator(sdd.llm_schema, sdd.result_schema)
         self.scorer = DeterministicScorer(sdd.rules)
         self.reporter = ReportGenerator(settings.output_dir)
-        self.auditors = (FinOpsAuditor(self.client, sdd.rules, sdd.llm_schema), ResilienceAuditor(self.client, sdd.rules, sdd.llm_schema), SecurityAuditor(self.client, sdd.rules, sdd.llm_schema), ObservabilityAuditor(self.client, sdd.rules, sdd.llm_schema))
+        self.auditors = (
+            FinOpsAuditor(self.client, sdd.rules, sdd.llm_schema),
+            ResilienceAuditor(self.client, sdd.rules, sdd.llm_schema),
+            SecurityAuditor(self.client, sdd.rules, sdd.llm_schema),
+            ObservabilityAuditor(self.client, sdd.rules, sdd.llm_schema),
+        )
 
     def check_model(self) -> None:
         models = self.client.health().get("models", [])
@@ -43,7 +50,10 @@ class HermesAuditor:
 
     def audit(self, target: RepositoryTarget) -> dict[str, Any]:
         event(self.logger, "audit_started", repository=target.full_name)
-        collected = self.collector.collect(target)
+        if target.selection_mode == "skill":
+            collected = self.skill_collector.collect(target)
+        else:
+            collected = self.collector.collect(target)
         event(self.logger, "repository_collected", repository=target.full_name, commit=collected.target.commit_sha, file_count=len(collected.files))
         context = self.analyzer.select(collected)
         if not context.files:
