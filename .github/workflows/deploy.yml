@@ -126,3 +126,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Output Pages URL
+        run: |
+          echo "🚀 Hermes Audit Reports deployed successfully!"
+          echo "🔗 URL: ${{ steps.deployment.outputs.page_url }}"
+          if [ -n "${{ github.step_summary }}" ]; then
+            echo "### 🌐 GitHub Pages Deployment" >> $GITHUB_STEP_SUMMARY
+            echo "Your Hermes reports have been successfully deployed to:" >> $GITHUB_STEP_SUMMARY
+            echo "- ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          fi
