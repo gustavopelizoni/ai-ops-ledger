@@ -2,32 +2,127 @@ name: Deploy Hermes reports to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
     paths:
       - "site/**"
+      - "agent/**"
+      - "pyproject.toml"
+      - ".github/workflows/deploy.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "site/**"
+      - "agent/**"
+      - "pyproject.toml"
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: github-pages
+  group: "pages-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
+  build-and-validate:
+    name: Build & Validate Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies & run tests
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pytest
+
+      - name: Validate static site integrity
+        run: |
+          python -c '
+          import json, os, sys
+
+          site_dir = "site"
+          reports_json_path = os.path.join(site_dir, "reports.json")
+          index_html_path = os.path.join(site_dir, "index.html")
+
+          if not os.path.isfile(index_html_path):
+              sys.exit("Error: site/index.html is missing")
+
+          if not os.path.isfile(reports_json_path):
+              sys.exit("Error: site/reports.json is missing")
+
+          with open(reports_json_path, "r", encoding="utf-8") as f:
+              reports = json.load(f)
+
+          print(f"Validated {len(reports)} report(s) in reports.json")
+
+          for r in reports:
+              filename = r.get("filename")
+              if not filename:
+                  sys.exit("Error: report missing filename field")
+              report_path = os.path.join(site_dir, "reports", filename)
+              if not os.path.isfile(report_path):
+                  sys.exit(f"Error: report HTML file missing: {report_path}")
+
+          print("Site structure and report files validated successfully!")
+          '
+
+      - name: Generate deployment summary
+        if: always()
+        run: |
+          python -c '
+          import json, os
+
+          reports_json_path = "site/reports.json"
+          if os.path.exists(reports_json_path):
+              with open(reports_json_path, "r", encoding="utf-8") as f:
+                  reports = json.load(f)
+              
+              summary = f"### 📊 Hermes Audit Reports Summary\n\n"
+              summary += f"Total Reports: **{len(reports)}**\n\n"
+              summary += "| Repository | Grade | Score |\n"
+              summary += "| --- | --- | --- |\n"
+              for r in reports:
+                  repo = r["repository"]["full_name"]
+                  grade = r["audit"]["grade"]
+                  score = r["audit"]["score"]
+                  summary += f"| `{repo}` | **{grade}** | {score:.1f}% |\n"
+              
+              with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+                  f.write(summary)
+          '
+
+      - name: Configure Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
   deploy:
+    name: Deploy to GitHub Pages
+    needs: build-and-validate
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
