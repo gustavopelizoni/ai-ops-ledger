@@ -75,6 +75,27 @@ o planner valida a sequência conhecida de estágios.
 - Cada finding precisa citar arquivo e linha presentes no contexto enviado.
 - JSON inválido recebe no máximo `MAX_LLM_RETRIES=2` novas tentativas.
 
+## 🏛️ Sala Virtual de Operações (AI Operations Room)
+
+O projeto agora conta com uma sala virtual interativa em tempo real (inspirada no `AiOperationsRoom`) para monitorar o Hermes, as skills especializadas e os scripts Python em atividade.
+
+### Como acessar a Sala Virtual
+
+1. Instale as dependências da API:
+   ```bash
+   .venv/bin/pip install fastapi uvicorn pydantic
+   ```
+
+2. Inicie o servidor da sala:
+   ```bash
+   .venv/bin/python -m uvicorn backend.api:app --host 127.0.0.1 --port 8765
+   ```
+
+3. Abra no navegador:
+   **[http://127.0.0.1:8765](http://127.0.0.1:8765)**
+
+Na interface, você pode acompanhar os agentes em tempo real (trabalhando, delegando, aguardando), visualizar o escritório em pixel art, conferir o painel e invocar varreduras diretamente pelo botão de auditoria.
+
 ## Testes
 
 ```bash
