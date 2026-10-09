@@ -1,12 +1,8 @@
-# System / IDE
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-*.swp
-*.swo
+# Git & CI
+.git
+.github
 
-# Python
+# Python environment & cache
 __pycache__/
 *.py[cod]
 *$py.class
@@ -18,14 +14,18 @@ venv/
 env/
 .pytest_cache/
 
-# Local testing & logs
-*.log
-tmp/
-
-# Hermes Agentic Auditor local inputs, archives, manifests and raw audit results
+# Local data & temp runs
 data/repositories/*
 data/audits/*
 data/manifests/*
 !data/repositories/.gitkeep
 !data/audits/.gitkeep
 !data/manifests/.gitkeep
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log
