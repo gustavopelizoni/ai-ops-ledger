@@ -72,3 +72,9 @@ def init_db() -> None:
             CREATE INDEX IF NOT EXISTS idx_execucao_session ON execucao(session_id);
             CREATE INDEX IF NOT EXISTS idx_evento_session ON evento(session_id);
         """)
+        # Migração segura caso a tabela já exista sem as colunas novas
+        for col, definition in [("cpu", "REAL DEFAULT 0.0"), ("memoria", "REAL DEFAULT 0.0"), ("logs", "TEXT DEFAULT '[]'")]:
+            try:
+                con.execute(f"ALTER TABLE execucao ADD COLUMN {col} {definition}")
+            except Exception:
+                pass

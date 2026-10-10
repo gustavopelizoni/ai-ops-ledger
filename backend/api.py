@@ -233,10 +233,12 @@ def ollama_status() -> dict:
 
 
 @app.post("/api/hermes/executar")
-def trigger_hermes(repo: str = Query("microsoft/autogen"), skill: str | None = Query(None)):
-    cmd = ["python", "main.py", "--repo", repo]
+def trigger_hermes(repo: str = Query("gustavopelizoni/kubernetes-ai-observability-lab"), skill: str | None = Query(None)):
+    import sys
+    python_exe = sys.executable
+    cmd = [python_exe, "main.py", "--repo", repo]
     if skill:
-        cmd = ["python", "main.py", "--skill", skill]
+        cmd = [python_exe, "main.py", "--skill", skill]
     
     # We can invoke asynchronously or synchronously, let's run in background or sync and log to events.jsonl
     # To make it visible in the room in real time, we can emit hook-like events or write to events.jsonl!
