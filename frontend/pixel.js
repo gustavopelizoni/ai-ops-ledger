@@ -748,7 +748,16 @@
   const VELOCIDADE = 26; // pixels de arte por segundo
   const PERMANENCIA = { mesa: [24000, 55000], cafe: [9000, 20000], estar: [14000, 36000] };
   const PLACA_MAX = 99; // unidades: duas placas vizinhas nunca se encostam
-  const ROTULOS = { principal: 'Claude principal', desconhecido: 'agente desconhecido' };
+  const ROTULOS = { 
+    principal: 'Hermes Master (Auditor)', 
+    pesquisa: 'Skill: Code & Repo Collector', 
+    plano: 'Harness: Workflow Planner', 
+    revisao: 'Skill: Code Analyzer', 
+    qa: 'Skill: Trivy & Security Auditor', 
+    dados: 'Skill: FinOps & Cost Auditor', 
+    conhecimento: 'Skill: Resilience & Report Gen',
+    desconhecido: 'Agente Auxiliar' 
+  };
   const rotulo = (tipo) => ROTULOS[tipo] || tipo || '?';
   const esc = (v) =>
     String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -988,8 +997,8 @@
       n.trabalhando && `${n.trabalhando} trabalhando`,
       n.delegando && `${n.delegando} delegando`,
       n.aguardando && `${n.aguardando} aguardando`,
-      n.orfa && `${n.orfa} órfã(s)`,
-      n.concluida && `${n.concluida} encerrada(s) · até 12 h`,
+      n.orfa && `${n.orfa} órfãs (sem heartbeat ou travadas)`,
+      n.concluida && `${n.concluida} encerradas (pausa no café/estar · até 12h)`,
     ].filter(Boolean);
     sala.estatico.querySelector('[data-papel="resumo"]').textContent = partes.join(' · ') || 'sala vazia';
     const ativos = n.trabalhando + n.delegando + n.aguardando;
