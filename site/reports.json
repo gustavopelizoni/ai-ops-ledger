@@ -146,6 +146,65 @@
   },
   {
     "repository": {
+      "full_name": "prowler-cloud/prowler",
+      "url": "https://github.com/prowler-cloud/prowler",
+      "selection_mode": "explicit"
+    },
+    "audit": {
+      "score": 92.5,
+      "grade": "A"
+    },
+    "summary": "The provided repository context does not contain any information related to the specified finops rules. The provided context does not contain any code that would be relevant for a static code audit. The context appears to be documentation for a software project, specifically the Prowler API. The repository context contains environment variables and secrets in plain text The provided context does not contain any findings related to the supplied architecture rules.",
+    "findings": [
+      {
+        "category": "security",
+        "severity": "high",
+        "title": "Secrets and credentials must not be hardcoded or exposed.",
+        "description": "The repository context contains the following line which exposes a secret key:\n\n```console\nDJANGO_TOKEN_SIGNING_KEY=your_secret_key DJANGO_TOKEN_VERIFYING_KEY=your_secret_key\n```\n\nThis secret key should be stored securely and not exposed in plain text.",
+        "file": "api/README.md",
+        "line": 15,
+        "recommendation": "Store the secret keys securely using environment variables or a secrets management system."
+      }
+    ],
+    "categories": {
+      "finops": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "resilience": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      },
+      "security": {
+        "score": 75,
+        "grade": "C",
+        "finding_count": 1
+      },
+      "architecture": {
+        "score": 100,
+        "grade": "A",
+        "finding_count": 0
+      }
+    },
+    "provenance": {
+      "commit_sha": "local",
+      "github_id": 0,
+      "model": "hermes3:8b",
+      "sdd_hashes": {
+        "rules": "0db8c2cf65d8e2658ce1e5186b2726731c25f3b912b4f8b39f76f7dbd35073f8",
+        "scope": "bb783577455e4eab89b0cb3b92cc9d660ecd9dcb0f66a3543f6d19a71fd140eb",
+        "workflow": "f51f72537c55a09f8cece8c31fec65b6d63abe8bf0cfcb27d876a61fec799c40",
+        "llm_schema": "1cbcd651c8e774c959cc7c0058cbb7a941829d13449926101566570ead50781a",
+        "result_schema": "ffa34d2ee266d262ec51d4e7cdab926cbd78f41bc7e327464be0c552c23adae8"
+      }
+    },
+    "filename": "prowler-cloud-prowler.html",
+    "generated_at": "2026-10-10T03:08:39.006824+00:00"
+  },
+  {
+    "repository": {
       "full_name": "rhoribe/minhashoras",
       "url": "https://github.com/rhoribe/minhashoras",
       "selection_mode": "explicit"

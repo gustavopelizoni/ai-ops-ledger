@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            slate: {
+              950: '#020617',
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#334155',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <title>prowler-cloud/prowler · Hermes Agentic Auditor</title>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased selection:bg-cyan-500 selection:text-slate-950">
+  <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+    <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+      <a class="text-cyan-400 hover:text-cyan-300 font-medium flex items-center gap-2 transition" href="../index.html">
+        <span>←</span> Voltar para Visão Geral
+      </a>
+      <div class="text-xs text-slate-400 flex items-center gap-2">
+        <span>🛡️</span> Hermes Agentic Auditor · Análise Estática & Segurança Local (Ollama)
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-6 py-10 space-y-10">
+    <!-- Repository Title & Metadata -->
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-900/80 border border-slate-800 rounded-2xl p-8 shadow-xl">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider bg-cyan-950 text-cyan-300 rounded-full border border-cyan-800/50">
+            Modo: Explícito
+          </span>
+          <span class="text-xs text-slate-400 font-mono">Commit: local</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-3 tracking-tight">
+          
+            <a href="https://github.com/prowler-cloud/prowler" target="_blank" class="hover:text-cyan-400 transition inline-flex items-center gap-2">
+              prowler-cloud/prowler ↗
+            </a>
+          
+        </h1>
+        <p class="text-sm text-slate-400 mt-2">Relatório de auditoria gerado em recentemente UTC</p>
+      </div>
+
+      <!-- Score & Grade Card -->
+      <div class="flex items-center gap-6 bg-slate-950/60 border border-slate-800/80 rounded-xl p-6 shadow-inner">
+        <div class="text-center">
+          <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Score Global</div>
+          <div class="text-5xl font-black mt-1 text-emerald-400">
+            92.5
+          </div>
+        </div>
+        <div class="h-12 w-px bg-slate-800"></div>
+        <div class="text-center">
+          <div class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Nota</div>
+          <div class="text-5xl font-black mt-1 text-emerald-400">
+            A
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section class="bg-slate-900/60 border border-slate-800 rounded-2xl p-8 shadow-lg">
+      <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2 mb-4">
+        <span>💡</span> Resumo Executivo e Insights de IA (Hermes / Ollama)
+      </h2>
+      <p class="text-slate-300 leading-relaxed text-base">The provided repository context does not contain any information related to the specified finops rules. The provided context does not contain any code that would be relevant for a static code audit. The context appears to be documentation for a software project, specifically the Prowler API. The repository context contains environment variables and secrets in plain text The provided context does not contain any findings related to the supplied architecture rules.</p>
+    </section>
+
+    <!-- Success Highlights & Passed Guardrails -->
+    <section class="bg-gradient-to-r from-emerald-950/30 to-slate-900/60 border border-emerald-900/40 rounded-2xl p-8 shadow-lg">
+      <h2 class="text-xl font-bold text-emerald-300 flex items-center gap-2 mb-4">
+        <span>🌟</span> Pontos Fortes e Guardrails Bem Sucedidos
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                💰 FinOps
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                ⚡ Resiliência
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+          
+        
+          
+          <div class="bg-slate-950/60 border border-emerald-900/30 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <span class="font-semibold capitalize text-emerald-300">
+                🏛️ Arquitetura
+              </span>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Aprovado (100)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-2">Nenhum desvio crítico encontrado. Padrões de robustez e conformidade atendidos com sucesso.</p>
+          </div>
+          
+        
+      </div>
+    </section>
+
+    <!-- Categories Breakdown -->
+    <section>
+      <h2 class="text-xl font-bold text-slate-200 mb-6 flex items-center gap-2">
+        <span>📊</span> Análise Detalhada por Categoria
+      </h2>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                💰
+                finops
+              </h3>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
+                Nota A
+              </span>
+            </div>
+            <div class="mt-4 flex items-baseline gap-2">
+              <span class="text-3xl font-extrabold text-slate-100">100</span>
+              <span class="text-xs text-slate-400">/ 100</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+              <div class="h-full rounded-full bg-emerald-500" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+            <span>Achados (Findings):</span>
+            <span class="font-semibold text-slate-200">0</span>
+          </div>
+        </div>
+        
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                ⚡
+                resilience
+              </h3>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
+                Nota A
+              </span>
+            </div>
+            <div class="mt-4 flex items-baseline gap-2">
+              <span class="text-3xl font-extrabold text-slate-100">100</span>
+              <span class="text-xs text-slate-400">/ 100</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+              <div class="h-full rounded-full bg-emerald-500" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+            <span>Achados (Findings):</span>
+            <span class="font-semibold text-slate-200">0</span>
+          </div>
+        </div>
+        
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                🛡️
+                security
+              </h3>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-amber-950 text-amber-300 border border-amber-800/50">
+                Nota C
+              </span>
+            </div>
+            <div class="mt-4 flex items-baseline gap-2">
+              <span class="text-3xl font-extrabold text-slate-100">75</span>
+              <span class="text-xs text-slate-400">/ 100</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+              <div class="h-full rounded-full bg-cyan-500" style="width: 75%;"></div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+            <span>Achados (Findings):</span>
+            <span class="font-semibold text-slate-200">1</span>
+          </div>
+        </div>
+        
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-6 flex flex-col justify-between hover:border-slate-700 transition shadow-md">
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="capitalize font-semibold text-slate-200 text-lg flex items-center gap-2">
+                🏛️
+                architecture
+              </h3>
+              <span class="px-2.5 py-0.5 text-xs font-bold rounded-md bg-emerald-950 text-emerald-300 border border-emerald-800/50">
+                Nota A
+              </span>
+            </div>
+            <div class="mt-4 flex items-baseline gap-2">
+              <span class="text-3xl font-extrabold text-slate-100">100</span>
+              <span class="text-xs text-slate-400">/ 100</span>
+            </div>
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+              <div class="h-full rounded-full bg-emerald-500" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-slate-800/60 flex items-center justify-between text-xs text-slate-400">
+            <span>Achados (Findings):</span>
+            <span class="font-semibold text-slate-200">0</span>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- Findings Section -->
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2">
+          <span>🔍</span> Achados Validados, Vulnerabilidades e Recomendações (1)
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        
+        <article class="bg-slate-900/60 border border-rose-900/60 bg-rose-950/10 rounded-xl p-6 shadow-md transition hover:border-slate-700">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded-md 
+                bg-rose-950 text-rose-300 border border-rose-800/50
+                ">
+                Severidade: Alto
+              </span>
+              <span class="px-2.5 py-1 text-xs font-semibold uppercase tracking-wider bg-slate-800 text-slate-300 rounded-md border border-slate-700">
+                Categoria: security
+              </span>
+            </div>
+            
+            <span class="font-mono text-xs text-cyan-300 bg-slate-950/60 px-3 py-1 rounded-md border border-slate-800">
+              📁 api/README.md:L15
+            </span>
+            
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-100 mt-2">Secrets and credentials must not be hardcoded or exposed.</h3>
+          <p class="mt-2 text-slate-300 leading-relaxed text-sm">The repository context contains the following line which exposes a secret key:
+
+```console
+DJANGO_TOKEN_SIGNING_KEY=your_secret_key DJANGO_TOKEN_VERIFYING_KEY=your_secret_key
+```
+
+This secret key should be stored securely and not exposed in plain text.</p>
+
+          
+          <div class="mt-4 pt-4 border-t border-slate-800/60 text-sm bg-slate-950/40 p-4 rounded-lg border border-slate-800/80">
+            <span class="font-semibold text-cyan-400 block mb-1">💡 Recomendação de Correção e Mitigação:</span>
+            <p class="text-slate-300">Store the secret keys securely using environment variables or a secrets management system.</p>
+          </div>
+          
+        </article>
+        
+      </div>
+    </section>
+
+    <!-- Important Operational Notes -->
+    <section class="bg-amber-950/20 border border-amber-900/40 rounded-2xl p-6 text-sm text-slate-300">
+      <h3 class="font-bold text-amber-300 flex items-center gap-2 mb-2">
+        <span>⚠️</span> Observações Importantes e Recomendações Operacionais
+      </h3>
+      <p class="leading-relaxed">
+        Esta auditoria foi conduzida estritamente de forma local e reproduzível utilizando o modelo local via Ollama. Recomenda-se revisar periodicamente os limites de contexto das chamadas de LLM, garantir o mascaramento de credenciais em ambientes de agentes autônomos e manter as varreduras de segurança ativas.
+      </p>
+    </section>
+
+    <!-- Provenance / Metadata Footer -->
+    <section class="bg-slate-900/40 border border-slate-800/80 rounded-xl p-6 text-xs text-slate-400 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="font-semibold text-slate-300">Modelo LLM (Ollama):</span> hermes3:8b &nbsp;|&nbsp;
+        <span class="font-semibold text-slate-300">GitHub ID:</span> N/A
+      </div>
+      <div>
+        <span class="font-semibold text-slate-300">Hash SDD das Regras:</span> <code class="text-cyan-300 font-mono">0db8c2cf65d8...</code>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
