@@ -744,24 +744,26 @@
   const PERMANENCIA = { mesa: [24000, 55000], cafe: [9000, 20000], estar: [14000, 36000] };
   const PLACA_MAX = 99; // unidades: duas placas vizinhas nunca se encostam
   const ROTULOS = { 
-    principal: 'Hermes Master (Auditor)', 
-    pesquisa: 'Skill: Code & Repo Collector', 
-    plano: 'Harness: Workflow Planner', 
-    revisao: 'Skill: Code Analyzer', 
-    qa: 'Skill: Trivy & Security Auditor', 
-    dados: 'Skill: FinOps & Cost Auditor', 
-    conhecimento: 'Skill: Resilience & Report Gen',
+    principal: 'Hermes Master (Orquestrador)', 
+    GitHubCollector: 'Skill: GitHub Collector', 
+    CodeAnalyzer: 'Skill: Code Analyzer', 
+    TrivyScanner: 'Skill: Trivy Security', 
+    FinOpsAuditor: 'Skill: FinOps Auditor', 
+    ResilienceAuditor: 'Skill: Resilience Auditor', 
+    SecurityAuditor: 'Skill: Security Auditor', 
+    ObservabilityAuditor: 'Skill: Observability', 
+    AuditValidator: 'Harness: JSON Validator', 
+    DeterministicScorer: 'Harness: Scorer & Report',
     desconhecido: 'Agente Auxiliar' 
   };
-  const rotulo = (tipo) => ROTULOS[tipo] || tipo || '?';
-  const esc = (v) =>
-    String(v === null || v === undefined ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-  const reduzido = () => raiz.matchMedia && raiz.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const FAMILIAS = [
-    ['principal', /^principal$/i], ['pesquisa', /^(explore|pesquisador|general-purpose|claude-code-guide)/i],
-    ['plano', /^plan$/i], ['revisao', /^(revisor|code-review|simplify)/i],
-    ['qa', /^(verificador|diagnostico|security)/i], ['dados', /^analista/i],
-    ['conhecimento', /^(curador|radar|entrega)/i],
+    ['principal', /^principal$/i], 
+    ['pesquisa', /^(GitHubCollector|CodeAnalyzer|explore|pesquisador)/i],
+    ['plano', /^(AuditValidator|DeterministicScorer|plan)/i],
+    ['revisao', /^(CodeAnalyzer|revisor)/i],
+    ['qa', /^(TrivyScanner|SecurityAuditor|verificador|security)/i],
+    ['dados', /^(FinOpsAuditor|analista)/i],
+    ['conhecimento', /^(ObservabilityAuditor|ResilienceAuditor|curador)/i],
   ];
   const familiaDe = (tipo) => (FAMILIAS.find(([, pattern]) => pattern.test(String(tipo || ''))) || ['outro'])[0];
   const GLIFOS = {
