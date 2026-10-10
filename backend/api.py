@@ -136,19 +136,12 @@ def dashboard(horas: int = Query(6, ge=1, le=24),
     window = (now - timedelta(hours=horas)).isoformat(timespec="seconds")
     visible = (now - timedelta(hours=convivencia)).isoformat(timespec="seconds")
     rows = con.execute(
-        "SELECT * FROM execucao WHERE estado IN ('trabalhando', 'delegando', 'aguardando') "
-        "OR julianday(criado_em) >= julianday(?) OR julianday(atualizado_em) >= julianday(?) "
-        "ORDER BY atualizado_em DESC", (window, visible)
+        "SELECT * FROM execucao ORDER BY atualizado_em DESC LIMIT 100"
     ).fetchall()
     items = [runs.public(row, _project_for(row["cwd"], mapped)) for row in rows]
     active = runs.ACTIVE
-    summary_items = [item for item in items if item["estado"] in active or
-                     _in_window(item["criado_em"], window) or _in_window(item["atualizado_em"], window)]
-    principals_with_children = {row["pai_chave"] for row in con.execute(
-        "SELECT DISTINCT pai_chave FROM execucao WHERE pai_chave IS NOT NULL"
-    )}
-    room_items = [item for item in items if item["estado"] in active or
-                  (convivencia and _in_window(item["atualizado_em"], visible) or item["estado"] in active)]
+    summary_items = items
+    room_items = items
     history: dict[str, list[dict]] = {}
     for item in sorted(summary_items, key=lambda x: x["criado_em"], reverse=True):
         history.setdefault(item["tipo"], []).append(item)
