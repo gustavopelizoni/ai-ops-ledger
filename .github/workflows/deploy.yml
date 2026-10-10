@@ -1,4 +1,4 @@
-name: 🚀 Deploy Hermes Reports & AI Operations Room
+name: 🎨 Publish AI Ops Ledger to GitHub Pages
 
 on:
   push:
@@ -32,25 +32,25 @@ concurrency:
 
 jobs:
   build-and-validate:
-    name: 🧪 Build, Test & Validate
+    name: 🧪 Build & Visual Validation
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 🛎️ Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python latest
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
           cache: "pip"
 
-      - name: Install dependencies & run test suite
+      - name: 📦 Install dependencies & test suite
         run: |
           python -m pip install --upgrade pip
           pip install -e .[dev]
           pytest -v
 
-      - name: Validate static site integrity
+      - name: 🔍 Validate static site & reports structure
         run: |
           python -c '
           import json, os, sys
@@ -68,7 +68,7 @@ jobs:
           with open(reports_json_path, "r", encoding="utf-8") as f:
               reports = json.load(f)
 
-          print(f"Validated {len(reports)} report(s) in reports.json")
+          print(f"✨ Validated {len(reports)} report(s) in reports.json")
 
           for r in reports:
               filename = r.get("filename")
@@ -78,10 +78,10 @@ jobs:
               if not os.path.isfile(report_path):
                   sys.exit(f"Error: report HTML file missing: {report_path}")
 
-          print("Site structure and report files validated successfully!")
+          print("🚀 Site structure and visual report files verified successfully!")
           '
 
-      - name: Generate deployment summary
+      - name: 📊 Generate Rich PR / Workflow Summary
         if: always()
         run: |
           python -c '
@@ -92,33 +92,36 @@ jobs:
               with open(reports_json_path, "r", encoding="utf-8") as f:
                   reports = json.load(f)
               
-              summary = f"### 📊 Hermes Audit Reports Summary\n\n"
-              summary += f"Total Reports: **{len(reports)}**\n\n"
-              summary += "| Repository | Grade | Score |\n"
-              summary += "| --- | --- | --- |\n"
+              summary = "## 🎨 AI Ops Ledger & Hermes Audit Visual Dashboard\n\n"
+              summary += f"✨ **Total Audited Repositories:** `{len(reports)}`\n\n"
+              summary += "| 📂 Repository | 🏆 Grade | 📈 Score | 🌟 Status |\n"
+              summary += "| :--- | :---: | :---: | :---: |\n"
               for r in reports:
                   repo = r["repository"]["full_name"]
                   grade = r["audit"]["grade"]
                   score = r["audit"]["score"]
-                  summary += f"| `{repo}` | **{grade}** | {score:.1f}% |\n"
+                  status = "🟢 Excellent" if score >= 90 else ("🟡 Good" if score >= 75 else "🔴 Needs Attention")
+                  summary += f"| **`{repo}`** | **{grade}** | `{score:.1f}%` | {status} |\n"
               
+              summary += "\n> 🚀 Deployed seamlessly to **GitHub Pages** with modern Tailwind UI.\n"
+
               if "GITHUB_STEP_SUMMARY" in os.environ:
                   with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
                       f.write(summary)
           '
 
-      - name: Configure GitHub Pages
+      - name: ⚙️ Configure GitHub Pages
         if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
-      - name: Upload Pages artifact
+      - name: 📤 Upload Pages Artifact
         if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
-    name: 🌐 Publish to GitHub Pages
+    name: 🌐 Deploy to GitHub Pages
     needs: build-and-validate
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop') && github.event_name != 'pull_request'
     environment:
@@ -126,11 +129,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy static site
+      - name: 🚀 Publish to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Output deployment details
+      - name: ✨ Output Live URL
         run: |
-          echo "🚀 Hermes Audit Reports deployed successfully!"
-          echo "🔗 URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "🎉 AI Ops Ledger deployed successfully to GitHub Pages!"
+          echo "🌐 Live URL: ${{ steps.deployment.outputs.page_url }}"
