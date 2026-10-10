@@ -148,9 +148,7 @@ def dashboard(horas: int = Query(6, ge=1, le=24),
         "SELECT DISTINCT pai_chave FROM execucao WHERE pai_chave IS NOT NULL"
     )}
     room_items = [item for item in items if item["estado"] in active or
-                  (convivencia and _in_window(item["atualizado_em"], visible) and
-                   (item["pai_chave"] is not None or item["chave"] in principals_with_children or
-                    _duration(item) >= 30))]
+                  (convivencia and _in_window(item["atualizado_em"], visible) or item["estado"] in active)]
     history: dict[str, list[dict]] = {}
     for item in sorted(summary_items, key=lambda x: x["criado_em"], reverse=True):
         history.setdefault(item["tipo"], []).append(item)
