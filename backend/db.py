@@ -64,7 +64,10 @@ def init_db() -> None:
                 estado TEXT NOT NULL,
                 origem_encerramento TEXT,
                 criado_em TEXT NOT NULL,
-                atualizado_em TEXT NOT NULL
+                atualizado_em TEXT NOT NULL,
+                cpu REAL DEFAULT 0.0,
+                memoria REAL DEFAULT 0.0,
+                logs TEXT DEFAULT '[]'
             );
             CREATE INDEX IF NOT EXISTS idx_execucao_session ON execucao(session_id);
             CREATE INDEX IF NOT EXISTS idx_evento_session ON evento(session_id);

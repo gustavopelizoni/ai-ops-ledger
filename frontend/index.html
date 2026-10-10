@@ -8,18 +8,18 @@
   <main class="container"><p id="notice" class="notice" role="status" hidden></p><div id="office-root"><section id="office-view"><div class="linha-titulo ops-titulo"><div><div class="ops-nome"><span class="ops-marca" aria-hidden="true"></span><h1>AI Ops Ledger · Sala de Operações Determinística & Hermes</h1></div><p class="ops-tagline">Ambiente corporativo autônomo: O <strong>Harness</strong> orquestra a auditoria, o <strong>Hermes</strong> (via <strong>Ollama</strong>) interpreta os códigos, e as <strong>Skills</strong> aplicam as regras (FinOps, Segurança Trivy, Resiliência, Arquitetura).</p></div><nav class="mobile-links" aria-label="Navegação móvel"><a href="/projetos">Projetos</a><a href="/como-utilizar">Como utilizar</a></nav><div class="alternador" aria-label="Modo de visualização"><button class="botao-mini" type="button" data-mode="panel">Painel</button><button class="botao-mini ativo" type="button" data-mode="office">Escritório</button></div></div><div style="margin: 14px 0; background: #0f172a; border: 1px solid #334155; padding: 12px 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
   <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
     <button id="btn-invocar-hermes" class="primary" style="padding: 8px 16px; font-size: 13px; font-weight: bold; cursor: pointer; background: #06b6d4; color: #020617; border-radius: 8px; border: none; display: inline-flex; align-items: center; gap: 6px;">🚀 Invocar Hermes (Auditar)</button>
-    <input id="input-repo" type="text" value="microsoft/autogen" style="padding: 7px 12px; border: 1px solid #475569; background: #020617; color: #f8fafc; border-radius: 8px; width: 220px; font-size: 13px;" placeholder="owner/repo">
+    <input id="input-repo" type="text" value="gustavopelizoni/kubernetes-ai-observability-lab" style="padding: 7px 12px; border: 1px solid #475569; background: #020617; color: #f8fafc; border-radius: 8px; width: 300px; font-size: 13px;" placeholder="owner/repo">
     <div id="ollama-status-badge" style="background: #1e293b; padding: 6px 12px; border-radius: 8px; font-size: 12px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #475569; color: #e2e8f0;">
       <span id="ollama-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block;"></span>
       <span id="ollama-text">Ollama (hermes3:8b): Pronto</span>
     </div>
   </div>
-  <div style="font-size: 12px; color: #94a3b8; display: flex; gap: 16px; flex-wrap: wrap;">
+  <div style="font-size: 12px; color: #94a3b8; display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
     <span>🤖 <strong>Hermes:</strong> Cérebro analítico local</span>
     <span>🧠 <strong>Ollama:</strong> Motor de inferência (GGUF)</span>
     <span>⚡ <strong>Harness:</strong> Orquestrador de estágios e segurança</span>
     <span>🛠️ <strong>Skills:</strong> Auditorias especializadas por categoria</span>
-    <span>🔴 <strong>Órfã:</strong> Execução travada ou sem pulso heartbeat</span>
+    <span style="margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: #38bdf8;"><span style="width: 8px; height: 8px; border-radius: 50%; background: #38bdf8; display: inline-block; animation: pulse 1s infinite;"></span> Atualização em tempo real (1s)</span>
   </div>
 </div><div id="office-summary" class="kpis" aria-label="Resumo de estados"></div><section class="bloco cena-bloco"><div id="operation-bar" class="barra-operacao"></div><section id="office-room" class="cena" aria-label="Escritório de operações"></section></section><div class="legenda-agentes" style="background: rgba(15, 23, 42, 0.6); padding: 12px 18px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; font-size: 12px; color: #94a3b8;">
   <span style="display: inline-flex; align-items: center; gap: 6px;"><i class="ponto verde" style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: inline-block; box-shadow: 0 0 8px #10b981;"></i><strong>Trabalhando:</strong> Executando análise na mesa</span>

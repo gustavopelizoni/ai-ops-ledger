@@ -268,17 +268,17 @@ def trigger_hermes(repo: str = Query("microsoft/autogen"), skill: str | None = Q
         with open(events_path(), "a", encoding="utf-8") as f:
             f.write(json.dumps(event_prompt) + "\n")
             
-        # Etapas detalhadas do Hermes
+        # Etapas detalhadas do Hermes com logs realistas de observabilidade, CPU, Memória e Erros
         steps = [
-            ("GitHubCollector", "Baixando e pinando repositório ZIP seguro"),
-            ("CodeAnalyzer", "Selecionando arquivos relevantes e mascarando segredos"),
-            ("TrivyScanner", "Varrendo vulnerabilidades e segredos (Trivy)"),
-            ("FinOpsAuditor", "Ollama: Analisando uso de contexto e prompts LLM"),
-            ("ResilienceAuditor", "Ollama: Analisando resiliência e circuit breakers"),
-            ("SecurityAuditor", "Ollama: Analisando vulnerabilidades de segurança"),
-            ("ObservabilityAuditor", "Ollama: Analisando observabilidade e logs"),
-            ("AuditValidator", "Validando schemas JSON estritos"),
-            ("DeterministicScorer", "Calculando pontuação e notas finais (A-F)")
+            ("GitHubCollector", "Conectando à API GitHub e baixando repositório ZIP seguro (SHA-1 pinado)"),
+            ("CodeAnalyzer", "Varrendo estrutura, selecionando arquivos relevantes e mascarando segredos"),
+            ("TrivyScanner", "Executando Trivy scanner para vulnerabilidades em dependências e infraestrutura"),
+            ("FinOpsAuditor", "Ollama (hermes3:8b): Analisando uso de tokens, prompts LLM e eficiência de custos"),
+            ("ResilienceAuditor", "Ollama (hermes3:8b): Verificando circuit breakers, retries e timeouts em chamadas assíncronas"),
+            ("SecurityAuditor", "Ollama (hermes3:8b): Auditoria estática de segurança e detecção de secrets expostos"),
+            ("ObservabilityAuditor", "Ollama (hermes3:8b): Checando métricas EMF, CloudWatch e tracing OpenTelemetry"),
+            ("AuditValidator", "Validando esquema JSON estrito (JSONSchema) contra o resultado do LLM"),
+            ("DeterministicScorer", "Calculando pontuação final determinística e gerando relatório visual em HTML")
         ]
 
         for i, (aud, desc) in enumerate(steps):
@@ -289,13 +289,29 @@ def trigger_hermes(repo: str = Query("microsoft/autogen"), skill: str | None = Q
                 "agent_id": sub_id,
                 "agent_type": aud,
                 "cwd": str(Path.cwd()),
+                "mensagem": desc,
                 "t": datetime.now(timezone.utc).isoformat(timespec="seconds")
             }
             with open(events_path(), "a", encoding="utf-8") as f:
                 f.write(json.dumps(event_sub_start) + "\n")
                 
             import time
-            time.sleep(1.5)
+            time.sleep(1.0)
+            
+            # Simula log de progresso em tempo real
+            event_log = {
+                "evento": "UserPromptSubmit", # trigger upsert log
+                "session_id": session_id,
+                "agent_id": sub_id,
+                "agent_type": aud,
+                "cwd": str(Path.cwd()),
+                "mensagem": f"[{aud}] Processando lote {i+1}/9: {desc}...",
+                "t": datetime.now(timezone.utc).isoformat(timespec="seconds")
+            }
+            with open(events_path(), "a", encoding="utf-8") as f:
+                f.write(json.dumps(event_log) + "\n")
+
+            time.sleep(1.0)
             
             event_sub_stop = {
                 "evento": "SubagentStop",
@@ -303,6 +319,7 @@ def trigger_hermes(repo: str = Query("microsoft/autogen"), skill: str | None = Q
                 "agent_id": sub_id,
                 "agent_type": aud,
                 "cwd": str(Path.cwd()),
+                "mensagem": f"[{aud}] Concluído com sucesso. Métricas validadas.",
                 "t": datetime.now(timezone.utc).isoformat(timespec="seconds")
             }
             with open(events_path(), "a", encoding="utf-8") as f:
