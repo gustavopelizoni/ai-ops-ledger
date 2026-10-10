@@ -48,7 +48,7 @@
   /* ---------------------------------------------------------- pessoas */
 
   // O contorno · S/s pele · R/r cabelo · E olho · T/t camisa · P calça ·
-  // B sapato · H/h fone (só o Claude principal)
+  // B sapato · H/h fone (só o Hermes Master)
   const CABECAS = {
     frente: {
       curto: [
