@@ -448,19 +448,14 @@
      desmentir o estado: quem trabalha vai mais à mesa; quem encerrou ou
      ficou órfão nunca volta a ela. */
   const PESOS = {
-    trabalhando: { mesa: 0.7, cafe: 0.15, estar: 0.15 },
-    delegando: { mesa: 0.65, cafe: 0.15, estar: 0.2 },
-    aguardando: { mesa: 0.3, cafe: 0.3, estar: 0.4 },
+    trabalhando: { mesa: 0.95, cafe: 0.03, estar: 0.02 },
+    delegando: { mesa: 0.90, cafe: 0.05, estar: 0.05 },
+    aguardando: { mesa: 0.2, cafe: 0.3, estar: 0.5 },
     concluida: { cafe: 0.4, estar: 0.6 },
     orfa: { cafe: 0.3, estar: 0.7 },
   };
-  /* Vitrine, opt-in com `foco=mesa` na URL (a cena showcase, para gravar
-     vídeo): quem trabalha ou delega só escolhe mesa, para o quadro nunca
-     mostrar "delegando" sentado no sofá. Fora disso nada muda: o uso normal
-     segue com PESOS acima, em que lugar é ambientação. Só vale para quem
-     trabalha ou delega; aguardando, encerrada e órfã circulam como sempre. */
   const PESOS_MESA = { trabalhando: { mesa: 1 }, delegando: { mesa: 1 } };
-  let focoMesa = false;
+  let focoMesa = true;
   const pesosDe = (status) => (focoMesa && PESOS_MESA[status]) || PESOS[status] || PESOS.aguardando;
 
   function sortearZona(status, sorteio) {
