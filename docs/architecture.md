@@ -1,42 +1,84 @@
 # Arquitetura do Hermes Agentic Auditor & AI Ops Ledger
 
-Este documento descreve a arquitetura geral, o fluxo de execução e os componentes do **Hermes Agentic Auditor**, um sistema autônomo, estático, local e reproduzível para auditoria de projetos de IA e agentes autônomos.
+Este documento descreve a arquitetura geral, o fluxo de execução e os componentes do **Hermes Agentic Auditor**, um sistema autônomo, estático, local e reproduzível para auditoria de projetos de IA, agentes autônomos e skills da plataforma.
 
 ---
 
 ## 🏗️ Visão Geral da Arquitetura
 
-O sistema foi desenhado com o princípio de **privacidade e independência**, executando todo o raciocínio de IA e análise estática **100% localmente via Ollama**, sem depender de APIs de nuvem para o processamento de código (como tokens da Gemini).
+O sistema foi desenhado com o princípio de **privacidade e independência**, executando todo o raciocínio de IA, análise estática e varredura de vulnerabilidades **100% localmente via Ollama e Trivy**, sem depender de APIs de nuvem para o processamento de código.
 
-### Diagrama de Fluxo Geral (Mermaid)
+### Diagrama de Fluxo Geral (Arquitetura em Camadas - Mermaid)
 
 ```mermaid
-graph TD
-    %% CLI & Entrypoint
-    CLI["CLI / main.py\n(Orquestração Inicial)"] --> Agent["HermesAuditor\n(agent/agent.py)"]
+C4Context
+    title Diagrama C4 - Arquitetura de Componentes do Hermes Agentic Auditor
 
-    %% Collection & Analysis Phase
-    Agent --> Collector["GitHubCollector\n(skills/github_collector.py)"]
-    Collector --> Downloader["API GitHub / Arquivo ZIP Seguro"]
-    Downloader --> Analyzer["CodeAnalyzer\n(skills/code_analyzer.py)"]
+    Person(cliUser, "Engenheiro / Operador", "Executa a CLI para auditar repositórios ou skills")
     
-    %% Trivy Security Scan
-    Analyzer --> Trivy["TrivyScanner\n(agent/trivy.py)\n- Vulnerabilidades\n- Segredos / Credenciais\n- Guardrails de Config"]
+    System_Boundary(hermesSystem, "Hermes Agentic Auditor & AI Ops Ledger") {
+        Container(cli, "CLI / main.py", "Python / argparse", "Orquestração de comandos, seleções (--repo, --repos, --search, --skill) e publicação")
+        
+        Container(collectors, "Coletores & Validadores", "GitHubCollector & SkillCollector", "Validação de metadados, pinning de commits, download seguro de ZIPs e parse de skills")
+        
+        Container(analyzer, "Code Analyzer & Trivy", "Static Code Analyzer + Trivy Scanner", "Varredura de dependências, segredos expostos, guardrails e redação/mascaramento de dados sensíveis")
+        
+        Container(auditors, "Skills Especializadas de Auditoria", "FinOps, Resilience, Security, Observability", "Auditorias específicas baseadas no SDD (Structured Domain Definition)")
+        
+        Container(engine, "Motor Local de LLM & Validação", "OllamaClient + Validator + Scorer", "Chamadas REST locais (hermes3:8b), validação estrita de schema JSON e pontuação determinística (A-F)")
+        
+        Container(reporter, "Gerador de Relatórios", "ReportGenerator", "Geração de dashboards modernos em HTML estático (Tailwind CSS) em PT-BR e relatórios JSON")
+    }
 
-    %% Skills & Local Ollama Execution
-    Trivy --> Context["Contexto Selecionado & Enriquecido"]
-    Context --> Skills["Skills Especializadas\n- FinOpsAuditor\n- ResilienceAuditor\n- SecurityAuditor\n- ObservabilityAuditor"]
+    System_Ext(github, "GitHub API / GitHub ZIPs", "Repositórios públicos de código-fonte")
+    System_Ext(ollama, "Ollama Local", "Servidor LLM local (http://localhost:11434)")
+    System_Ext(trivyBin, "Trivy Binário", "Varredura estática de segurança de infra e código")
 
-    Skills --> OllamaClient["OllamaClient\n(agent/ollama_client.py)"]
-    OllamaClient --> OllamaServer["Ollama Local\n(http://localhost:11434)\nModelo: hermes3:8b"]
+    Rel(cliUser, cli, "Executa comando CLI")
+    Rel(cli, collectors, "Aciona coleta de alvos")
+    Rel(collectors, github, "Baixa zip / valida metadados")
+    Rel(collectors, analyzer, "Envia arquivos do repositório/skill")
+    Rel(analyzer, trivyBin, "Executa varredura de segurança")
+    Rel(analyzer, auditors, "Passa contexto enriquecido e filtrado")
+    Rel(auditors, engine, "Envia prompts e recebe análises estruturadas")
+    Rel(engine, ollama, "Processa inferência local (temp=0)")
+    Rel(engine, reporter, "Alimenta validador e scorer determinístico")
+    Rel(reporter, cli, "Salva arquivos no diretório de saída (site/) e data/manifests/")
+```
 
-    %% Validation & Scoring
-    OllamaServer --> Validator["AuditValidator\n(agent/validator.py)\n(Validação de Schema JSON)"]
-    Validator --> Scorer["DeterministicScorer\n(agent/scorer.py)\n(Pesos, Notas e Cálculo)"]
+---
 
-    %% Reporting & GitHub Pages
-    Scorer --> Reporter["ReportGenerator\n(skills/report_generator.py)"]
-    Reporter --> Output["GitHub Pages / site/\n- index.html (Dashboard PT-BR)\n- reports.json\n- reports/*.html"]
+## 🔄 Fluxo Detalhado de Execução (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Usuário (CLI)
+    participant Main as main.py / HermesAuditor
+    participant Collector as GitHub / Skill Collector
+    participant Analyzer as CodeAnalyzer & Trivy
+    participant Auditor as Auditors (FinOps, Resilience...)
+    participant Ollama as Ollama Local (hermes3:8b)
+    participant Scorer as Validator & Scorer
+    participant Report as ReportGenerator
+
+    User->>Main: Executa `python main.py --repo owner/repo`
+    Main->>Collector: Valida e baixa repositório alvo (ZIP seguro)
+    Collector-->>Main: Alvo baixado e estruturado
+    Main->>Analyzer: Inicia seleção de arquivos e Redaction
+    Analyzer->>Analyzer: Executa Trivy Scanner (Segredos & Vulns)
+    Analyzer-->>Main: Contexto de código enriquecido
+    
+    loop Para cada Skill de Auditoria
+        Main->>Auditor: Executa auditoria especializada
+        Auditor->>Ollama: Envia prompt restrito (POST /api/chat)
+        Ollama-->>Auditor: Retorna JSON bruto
+        Auditor->>Scorer: Valida Schema e calcula pontuação ponderada
+        Scorer-->>Main: Resultado validado e pontuado
+    end
+
+    Main->>Report: Compila relatórios consolidados
+    Report-->>User: Gera Dashboard HTML (Tailwind) e JSON em site/
 ```
 
 ---
@@ -44,14 +86,15 @@ graph TD
 ## 🧩 Componentes do Sistema (`agent/` & `skills/`)
 
 ### 1. Camada de Entrada e Orquestração
-- **`main.py`**: Ponto de entrada da CLI. Aceita argumentos como `--repo`, `--repos`, `--search`, `--model` e gerencia o fluxo de execução.
-- **`agent/agent.py` (`HermesAuditor`)**: Orquestrador central que comanda o ciclo de vida da auditoria (coleta, análise, auditoria por skills, validação, pontuação e publicação).
-- **`agent/config.py`**: Gerenciamento de configurações por variáveis de ambiente (`OLLAMA_HOST`, `OLLAMA_MODEL`, timeouts, limites).
+- **`main.py`**: Ponto de entrada da CLI. Aceita argumentos como `--repo`, `--repos`, `--search`, `--skill`, `--dry-run` e gerencia o pipeline de execução.
+- **`agent/agent.py` (`HermesAuditor`)**: Orquestrador central que comanda o ciclo de vida completo da auditoria (coleta, análise, auditoria por skills, validação, pontuação e publicação).
+- **`agent/config.py`**: Gerenciamento robusto de configurações por variáveis de ambiente (`OLLAMA_HOST`, `OLLAMA_MODEL`, timeouts, limites).
 
 ### 2. Coletores e Analisadores
 - **`skills/github_collector.py`**: Valida repositórios públicos, resolve commits (*pinning*) e baixa arquivos compactados ZIP de forma segura (respeitando limites de tamanho e proporção de compressão).
+- **`skills/skill_collector.py`**: Suporte a importação e validação de skills da plataforma Skills.sh.
 - **`skills/code_analyzer.py`**: Seleciona arquivos relevantes, aplica regras de exclusão e redatora/mascara segredos (*redaction*) para proteger dados sensíveis.
-- **`agent/trivy.py`**: Integração com o scanner **Trivy** para varredura de vulnerabilidades de dependências, segredos expostos (SEC-002) e desvios de configuração (*misconfigurations*).
+- **`agent/trivy.py`**: Integração nativa com o scanner **Trivy** para varredura de vulnerabilidades de dependências, segredos expostos (SEC-002) e desvios de configuração (*misconfigurations*).
 
 ### 3. Skills Especializadas e Cliente Ollama
 - **`agent/ollama_client.py`**: Cliente REST robusto que interage com a API `/api/chat` do Ollama local (`http://localhost:11434`), garantindo modo determinístico (`temperature: 0`).
@@ -65,3 +108,4 @@ graph TD
 - **`agent/validator.py`**: Validação estrita baseada nos schemas JSON definidos em `specs/`.
 - **`agent/scorer.py`**: Motor de pontuação determinística que converte achados em notas (`A`, `B`, `C`, `D`, `F`) com base em pesos ponderados.
 - **`skills/report_generator.py`**: Gera páginas HTML estáticas e modernas com Tailwind CSS em **100% Português do Brasil**, incorporando ícones, cartões de pontos fortes, avisos operacionais e o catálogo `reports.json`.
+
