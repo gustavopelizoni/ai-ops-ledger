@@ -756,6 +756,7 @@
     DeterministicScorer: 'Harness: Scorer & Report',
     desconhecido: 'Agente Auxiliar' 
   };
+  const rotulo = (tipo) => ROTULOS[tipo] || tipo || '?';
   const FAMILIAS = [
     ['principal', /^principal$/i], 
     ['pesquisa', /^(GitHubCollector|CodeAnalyzer|explore|pesquisador)/i],
